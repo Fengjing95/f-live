@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: http fetch封装
- * @LastEditTime: 2022-05-23 15:47:08
+ * @LastEditTime: 2022-05-25 16:12:40
  */
 import axios from "axios";
 import { Message } from "@arco-design/web-vue";
@@ -80,3 +80,10 @@ request.interceptors.response.use(
     return null;
   }
 );
+
+export const rtcRequest = axios.create({
+  baseURL: "/srs",
+  headers: {
+    "Content-Type": "application/json",
+  },
+});
