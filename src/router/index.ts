@@ -1,5 +1,11 @@
+/*
+ * @Date: 2022-05-09 19:57:46
+ * @Author: 枫
+ * @LastEditors: 枫
+ * @description: description
+ * @LastEditTime: 2022-05-14 23:33:00
+ */
 import { createRouter, createWebHistory } from "vue-router";
-import HomeView from "../views/HomeView.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -7,15 +13,18 @@ const router = createRouter({
     {
       path: "/",
       name: "home",
-      component: HomeView,
+      component: () => import("../views/HomeView.vue"),
+      meta: {
+        menuName: "首页",
+      },
     },
     {
       path: "/about",
       name: "about",
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
       component: () => import("../views/AboutView.vue"),
+      meta: {
+        menuName: "关于",
+      },
     },
   ],
 });
