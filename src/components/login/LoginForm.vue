@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-05-23 16:02:30
+ * @LastEditTime: 2022-06-06 14:59:57
 -->
 <template>
   <a-form
@@ -82,10 +82,11 @@ function login({
       return { username: values.username, password };
     })
     .then(loginByPassword)
-    .then((token) => {
+    .then(async (token) => {
       if (token) {
         // 保存 token
         useUserStore().setToken(token);
+        await useUserStore().getUserInfo();
         Message.success("登录成功");
         // 关闭登录框
         useGlobalStore().overLogin();

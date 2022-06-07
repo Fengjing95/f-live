@@ -3,9 +3,16 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-05-14 23:33:00
+ * @LastEditTime: 2022-06-07 17:15:47
  */
 import { createRouter, createWebHistory } from "vue-router";
+
+declare module "vue-router" {
+  interface RouteMeta {
+    menuName?: string;
+    needLogin?: boolean;
+  }
+}
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,14 +26,34 @@ const router = createRouter({
       },
     },
     {
-      path: "/about",
-      name: "about",
-      component: () => import("../views/AboutView.vue"),
+      path: "/classification",
+      name: "classification",
+      component: () => import("../views/Classification/ClassificationList.vue"),
       meta: {
-        menuName: "关于",
+        menuName: "分类",
       },
     },
+    {
+      path: "/like",
+      name: "like",
+      component: () => import("../views/Favorites/FavoriteList.vue"),
+      meta: {
+        menuName: "关注",
+        needLogin: true,
+      },
+    },
+    {
+      path: "/live/:roomId",
+      name: "live",
+      component: () => import("../views/LiveRoom/LiveRoom.vue"),
+      props: (route) => ({ roomId: route.params.roomId }),
+    },
   ],
+});
+
+router.beforeEach((to) => {
+  document.title = to.meta.menuName || "枫直播";
+  return true;
 });
 
 export default router;

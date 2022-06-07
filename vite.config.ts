@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-05-24 14:25:19
+ * @LastEditTime: 2022-05-26 11:25:52
  */
 import { fileURLToPath, URL } from "url";
 import Components from "unplugin-vue-components/vite";
@@ -44,7 +44,7 @@ export default defineConfig({
       "/api": {
         target: "http://127.0.0.1:7001",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, "/v1/api"),
+        rewrite: (path) => path.replace(/^\/api/, "/api/v1"),
       },
     },
   },

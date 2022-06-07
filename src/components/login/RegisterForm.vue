@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-05-24 14:25:45
+ * @LastEditTime: 2022-06-06 15:01:50
 -->
 <template>
   <a-form
@@ -204,7 +204,7 @@ function phoneValidate(value: string, cb: (s: string) => void) {
 function userExistRule(value: string, cb: (s: string) => void) {
   return new Promise((resolve) => {
     isUsernameExist(value).then((res) => {
-      if (res === "true") cb("用户名已存在");
+      if (res) cb("用户名已存在");
       resolve(true);
     });
   });
@@ -231,11 +231,12 @@ function register({
       return { username, nickname, phone, code, password: encode };
     })
     .then(registerUser)
-    .then((token) => {
+    .then(async (token) => {
       if (token) {
         // 保存 token
         useUserStore().setToken(token);
-        Message.success("登录成功");
+        await useUserStore().getUserInfo();
+        Message.success("注册成功");
         // 关闭登录框
         useGlobalStore().overLogin();
       }

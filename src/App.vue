@@ -3,25 +3,29 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-05-23 17:02:03
+ * @LastEditTime: 2022-06-07 19:32:59
 -->
 <script setup lang="ts">
 import { RouterView, useRouter } from "vue-router";
 import { useGlobalStore } from "./stores/global";
 import { useUserStore } from "./stores/user";
-import { request } from "./utils/request";
+import LoginModal from "./components/login/LoginModal.vue";
+// import { request } from "./utils/request";
 
 const router = useRouter();
 const routes = router.getRoutes();
 
 const global = useGlobalStore();
 const user = useUserStore();
-request.get("/users/passport1/getSecret?username=fengjing").catch((res) => {
-  console.log(res);
-});
-request.get("/users/passport/getSecret?username=fengjing").catch((res) => {
-  console.log(res);
-});
+if (!user.info?.userId) {
+  user.getUserInfo();
+}
+// request.post("/anchor/streamKey").catch((res) => {
+//   console.log(res);
+// });
+// request.get("/user/myInfo").catch((res) => {
+//   console.log(res);
+// });
 </script>
 
 <template>
@@ -43,17 +47,24 @@ request.get("/users/passport/getSecret?username=fengjing").catch((res) => {
           <img src="@/assets/images/menu-logo.png" :width="80" :height="40" />
         </a-menu-item>
         <a-menu-item
-          v-for="route in routes"
+          v-for="route in routes.filter((route) => route.meta.menuName)"
           :key="route.path"
           @click="router.push(route.path)"
-          >{{ route.meta.menuName }}</a-menu-item
         >
+          <!-- 不需要登录 或者 已经登陆 -->
+          <template v-if="!route.meta.needLogin || user.info?.userId">
+            {{ route.meta.menuName }}
+          </template>
+        </a-menu-item>
       </a-menu>
-      <div>
-        <!-- TODO 动态渲染用户头像或者登录按钮 -->
-        <a-Button type="primary" v-if="user.token" @click="global.startLogin"
-          >登录</a-Button
-        >
+      <div class="avatar">
+        <!-- TODO 历史观看 -->
+        <!-- TODO 消息通知 -->
+        <!-- 动态渲染用户头像或者登录按钮 -->
+        <a-avatar v-if="user.info?.userId">
+          <img alt="avatar" :src="user.info?.avatar" />
+        </a-avatar>
+        <span class="unlogin" v-else @click="global.startLogin">&nbsp;</span>
       </div>
     </div>
   </div>
@@ -91,8 +102,27 @@ body {
     width: 1200px;
     display: flex;
     // margin: 0 auto;
+    .avatar {
+      display: flex;
+      align-items: center;
+      .unlogin {
+        cursor: pointer;
+        display: block;
+        width: 52px;
+        height: 52px;
+        background-image: url("./assets/images/unlogin-sprite.webp");
+        background-repeat: no-repeat;
+        background-position: 0 0;
+        background-size: auto 100%;
+        animation: unloginAnimate 1s steps(1) infinite;
+        -moz-background-size: auto 100%;
+        -webkit-background-size: auto 100%;
+        -webkit-animation: unloginAnimate 1s steps(1) infinite;
+      }
+    }
   }
 }
+
 .content-container {
   width: 100%;
   display: flex;

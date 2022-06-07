@@ -3,10 +3,10 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-05-23 15:43:32
+ * @LastEditTime: 2022-06-06 14:48:33
  */
 
-import type { LoginDTO, UserRegisterDTO } from "#/user";
+import type { LoginDTO, UserInfoDTO, UserRegisterDTO } from "#/user";
 import { request } from "@/utils/request";
 
 /**
@@ -65,4 +65,22 @@ export async function sendMessage(phone: string): Promise<string> {
  */
 export async function registerUser(user: UserRegisterDTO): Promise<string> {
   return await request.post("/user/passport/register", user);
+}
+
+/**
+ * @description: 获取当前用户信息
+ * @param {*}
+ * @return {*}
+ */
+export async function getMyInfo(): Promise<UserInfoDTO> {
+  return await request.get("/user/myInfo");
+}
+
+/**
+ * @description: 退出登录
+ * @param {*}
+ * @return {*}
+ */
+export async function logout(): Promise<boolean> {
+  return await request.put("/user/logout");
 }

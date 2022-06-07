@@ -14,8 +14,10 @@
     "@arco-themes/vue-orange": "^0.0.1",
     "axios": "^0.27.2",
     "jsencrypt": "^3.2.1",
+    "moment": "^2.29.3",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.13",
+    "socket.io-client": "^4.5.1",
     "vue": "^3.2.33",
     "vue-router": "^4.0.14"
   },
