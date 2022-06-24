@@ -1,0 +1,93 @@
+@font-face {
+  font-family: "iconfont"; /* Project id  */
+  src: url('iconfont.ttf?t=1655810563223') format('truetype');
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-food-cookie:before {
+  content: "\e601";
+}
+
+.icon-food-pecan:before {
+  content: "\e602";
+}
+
+.icon-food-avocado:before {
+  content: "\e603";
+}
+
+.icon-food-pudding:before {
+  content: "\e604";
+}
+
+.icon-food-strawberry:before {
+  content: "\e605";
+}
+
+.icon-food-doughnut:before {
+  content: "\e606";
+}
+
+.icon-food-chips:before {
+  content: "\e607";
+}
+
+.icon-food-popcorn:before {
+  content: "\e608";
+}
+
+.icon-food-bread:before {
+  content: "\e609";
+}
+
+.icon-food-pizza:before {
+  content: "\e60a";
+}
+
+.icon-food-hotdog:before {
+  content: "\e60b";
+}
+
+.icon-food-taco:before {
+  content: "\e60c";
+}
+
+.icon-food-popsicle:before {
+  content: "\e60d";
+}
+
+.icon-food-eggyolkcake:before {
+  content: "\e60e";
+}
+
+.icon-food-sushi:before {
+  content: "\e60f";
+}
+
+.icon-food-cake:before {
+  content: "\e610";
+}
+
+.icon-food-macaron:before {
+  content: "\e611";
+}
+
+.icon-food-cashew:before {
+  content: "\e612";
+}
+
+.icon-food-mochi:before {
+  content: "\e613";
+}
+
+.icon-food-pistachio:before {
+  content: "\e614";
+}
+

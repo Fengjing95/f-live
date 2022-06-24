@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-06-07 19:32:59
+ * @LastEditTime: 2022-06-21 20:01:54
 -->
 <script setup lang="ts">
 import { RouterView, useRouter } from "vue-router";
@@ -17,7 +17,7 @@ const routes = router.getRoutes();
 
 const global = useGlobalStore();
 const user = useUserStore();
-if (!user.info?.userId) {
+if (!user.token) {
   user.getUserInfo();
 }
 // request.post("/anchor/streamKey").catch((res) => {
@@ -36,6 +36,7 @@ if (!user.info?.userId) {
         :style="{
           margin: '-7px -20px -10px -20px',
           backgroundColor: 'rgba(0,0,0,0)',
+          width: '50%',
         }"
         :selected-keys="[router.currentRoute.value.path]"
       >
@@ -57,13 +58,21 @@ if (!user.info?.userId) {
           </template>
         </a-menu-item>
       </a-menu>
-      <div class="avatar">
+      <div class="user-toolbar">
         <!-- TODO 历史观看 -->
         <!-- TODO 消息通知 -->
         <!-- 动态渲染用户头像或者登录按钮 -->
-        <a-avatar v-if="user.info?.userId">
-          <img alt="avatar" :src="user.info?.avatar" />
-        </a-avatar>
+        <div class="login-toolbar" v-if="user.info?.userId">
+          <div class="user-avatar-action">
+            <a-avatar class="user-avatar">
+              <img alt="avatar" :src="user.info?.avatar" />
+            </a-avatar>
+
+            <!-- TODO 用户面板 hover -->
+            <div class="user-panel">1</div>
+          </div>
+        </div>
+
         <span class="unlogin" v-else @click="global.startLogin">&nbsp;</span>
       </div>
     </div>
@@ -87,9 +96,11 @@ body {
 </style>
 
 <style scoped lang="less">
+@import "@/index.less";
 .menu-container {
   // margin: -14px -20px 0 -20px;
   width: 100%;
+  min-width: @custom_width;
   position: sticky;
   top: 0;
   display: flex;
@@ -99,12 +110,51 @@ body {
   z-index: 9;
   .menu {
     box-sizing: border-box;
-    width: 1200px;
+    width: @custom_width;
     display: flex;
+    justify-content: space-between;
     // margin: 0 auto;
-    .avatar {
+    .user-toolbar {
       display: flex;
       align-items: center;
+
+      .login-toolbar {
+        display: flex;
+        align-items: center;
+
+        .user-avatar-action {
+          position: relative;
+          .user-avatar {
+            cursor: pointer;
+            transition: 0.4s;
+          }
+
+          .user-panel {
+            // opacity: 0;
+            display: none;
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 210px;
+            background-color: #fff;
+            box-shadow: 0 0 10px 2px rgb(0 0 0 / 6%);
+          }
+
+          &:hover {
+            .user-avatar {
+              transform: scale(1.7) translate(0, 15px);
+              z-index: 19;
+            }
+            .user-panel {
+              display: block;
+              z-index: 18;
+              // opacity: 1;
+            }
+          }
+        }
+      }
+
       .unlogin {
         cursor: pointer;
         display: block;
@@ -125,10 +175,12 @@ body {
 
 .content-container {
   width: 100%;
+  min-width: @custom_width;
   display: flex;
   justify-content: center;
+  padding: 20px 0;
   .content {
-    width: 1200px;
+    width: @custom_width;
   }
 }
 </style>

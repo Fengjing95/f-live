@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: 直播间展示卡片
- * @LastEditTime: 2022-06-07 19:57:55
+ * @LastEditTime: 2022-06-21 20:01:09
 -->
 <template>
   <a-card :style="{ width: '288px' }">
@@ -23,10 +23,12 @@
       <div class="live-image">
         <!-- 最佳比例: 286:160 -->
         <img
+          class="image"
           loading="lazy"
           :style="{ width: '100%' }"
           :alt="anchor.nickname"
           :src="room.image"
+          @click="openLive"
         />
         <div class="mask" v-if="!room.isLiving">
           <div class="info-wrapper">
@@ -44,7 +46,7 @@
           <a-avatar :size="24" :style="{ marginRight: '8px' }">
             <img :src="anchor.avatar" />
           </a-avatar>
-          <a-typography-text>{{ anchor.username }}</a-typography-text>
+          <a-typography-text>{{ anchor.nickname }}</a-typography-text>
         </div>
       </template>
     </a-card-meta>
@@ -102,6 +104,14 @@ function openStrongHold() {
   height: 160.48px;
   overflow: hidden;
   position: relative;
+  .image {
+    transition: all 0.3s;
+    cursor: pointer;
+    &:hover {
+      transform: scale(1.2, 1.2);
+      transition: all 0.5s;
+    }
+  }
 
   .mask {
     position: absolute;

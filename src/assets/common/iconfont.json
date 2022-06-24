@@ -1,0 +1,30 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "4450243",
+      "name": "实名认证",
+      "font_class": "shimingrenzheng",
+      "unicode": "e6cc",
+      "unicode_decimal": 59084
+    },
+    {
+      "icon_id": "7447601",
+      "name": "认证-01",
+      "font_class": "renzheng-",
+      "unicode": "e629",
+      "unicode_decimal": 58921
+    },
+    {
+      "icon_id": "26797066",
+      "name": "认证",
+      "font_class": "renzheng",
+      "unicode": "10071",
+      "unicode_decimal": 65649
+    }
+  ]
+}

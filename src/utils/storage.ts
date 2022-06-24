@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: 缓存工具
- * @LastEditTime: 2022-06-07 19:44:12
+ * @LastEditTime: 2022-06-08 14:18:00
  */
 
 import type { UserInfoDTO } from "#/user";

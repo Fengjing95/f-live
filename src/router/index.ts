@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-06-07 17:15:47
+ * @LastEditTime: 2022-06-08 09:17:39
  */
 import { createRouter, createWebHistory } from "vue-router";
 
@@ -52,7 +52,8 @@ const router = createRouter({
 });
 
 router.beforeEach((to) => {
-  document.title = to.meta.menuName || "枫直播";
+  // 跳转路由之前修改标签页标题
+  document.title = (to.meta.menuName ? to.meta.menuName + "_" : "") + "枫直播";
   return true;
 });
 
