@@ -10,6 +10,7 @@ declare module '@vue/runtime-core' {
     ACard: typeof import('@arco-design/web-vue')['Card']
     ACardMeta: typeof import('@arco-design/web-vue')['CardMeta']
     ACol: typeof import('@arco-design/web-vue')['Col']
+    AEmpty: typeof import('@arco-design/web-vue')['Empty']
     AForm: typeof import('@arco-design/web-vue')['Form']
     AFormItem: typeof import('@arco-design/web-vue')['FormItem']
     AInput: typeof import('@arco-design/web-vue')['Input']

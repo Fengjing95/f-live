@@ -4,11 +4,17 @@ RoomDTO
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-06-26 18:27:31
+ * @LastEditTime: 2022-06-28 19:50:53
 -->
 <template>
   <div :style="{ paddingTop: '20px' }">
-    <a-row :gutter="[16, 16]">
+    <a-empty v-if="list.content.length === 0" :style="{ marginTop: '200px' }">
+      <template #image>
+        <icon-empty />
+      </template>
+      未关注任何直播间
+    </a-empty>
+    <a-row v-else :gutter="[16, 16]">
       <a-col :span="6" v-for="item in list.content" :key="item.roomId">
         <room-card
           :room="item"
@@ -25,6 +31,7 @@ import { getFavoriteList } from "@/services/favorite";
 import { reactive } from "vue";
 import RoomCard from "@/components/RoomCard.vue";
 import { afterLogin } from "@/utils/actionAfterLogin";
+import { IconEmpty } from "@arco-design/web-vue/es/icon";
 import type { RoomDTO } from "#/room";
 // TODO 分页
 let list = reactive({
