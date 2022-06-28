@@ -3,23 +3,9 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-06-21 20:10:09
+ * @LastEditTime: 2022-06-27 11:14:59
  */
 import type { UserInfoDTO } from "./user";
-
-export interface RoomInfoDTO {
-  roomId: number;
-  beautifulId: string;
-  title: string;
-  isLiving: boolean;
-  streamKey: string;
-  image: string;
-  classification: string;
-  lastLiveTime: string;
-  createTime: string;
-  fans: number;
-  anchor: UserInfoDTO;
-}
 
 export interface MessageDTO {
   roomId: string;
@@ -27,4 +13,25 @@ export interface MessageDTO {
   fromNickname: string;
   msg: string;
   id: string;
+}
+
+export interface Room {
+  info: RoomInfoDTO;
+  isLike: boolean;
+  msgList: MessageDTO[];
+  personCount: number;
+}
+
+export interface RoomDTO {
+  roomId: number;
+  beautifulId: string;
+  title: string;
+  isLiving: boolean;
+  streamKey: string;
+  image: string;
+  classification: Classification;
+  lastLiveTime: string;
+  createTime: string;
+  fans: number;
+  anchor: UserInfoDTO;
 }

@@ -1,12 +1,13 @@
+RoomDTO
 <!--
  * @Date: 2022-06-06 17:12:13
  * @Author: 枫
  * @LastEditors: 枫
  * @description: 直播间展示卡片
- * @LastEditTime: 2022-06-21 20:01:09
+ * @LastEditTime: 2022-06-27 11:15:50
 -->
 <template>
-  <a-card :style="{ width: '288px' }">
+  <a-card class="room-card" hoverable>
     <template #actions>
       <a-tooltip content="前往直播间" position="top" mini>
         <span class="icon-hover" @click="openLive">
@@ -38,7 +39,7 @@
         </div>
       </div>
     </template>
-    <a-card-meta :title="room.title">
+    <a-card-meta :title="room.title" :description="classification.className">
       <template #avatar>
         <div
           :style="{ display: 'flex', alignItems: 'center', color: '#1D2129' }"
@@ -46,6 +47,7 @@
           <a-avatar :size="24" :style="{ marginRight: '8px' }">
             <img :src="anchor.avatar" />
           </a-avatar>
+
           <a-typography-text>{{ anchor.nickname }}</a-typography-text>
         </div>
       </template>
@@ -54,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Room, Anchor } from "#/favorite";
+import type { UserInfoDTO } from "#/user";
 import {
   IconLiveBroadcast,
   IconRelation,
@@ -62,8 +64,14 @@ import {
 } from "@arco-design/web-vue/es/icon";
 import { useRouter } from "vue-router";
 import { utcToLocal } from "@/utils/time";
+import type { Classification } from "#/class";
+import type { RoomDTO } from "#/room";
 
-const props = defineProps<{ room: Room; anchor: Anchor }>();
+const props = defineProps<{
+  room: RoomDTO;
+  anchor: UserInfoDTO;
+  classification: Classification;
+}>();
 
 const router = useRouter();
 
@@ -87,6 +95,13 @@ function openStrongHold() {
 </script>
 
 <style scoped lang="less">
+.room-card {
+  width: 288px;
+  transition-property: all;
+  &:hover {
+    transform: translateY(-4px);
+  }
+}
 .icon-hover {
   display: flex;
   align-items: center;

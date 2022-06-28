@@ -3,9 +3,9 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-06-08 14:17:31
+ * @LastEditTime: 2022-06-27 14:37:44
  */
-// import type { UserInfoDTO } from "#/user";
+import type { UserInfoDTO } from "#/user";
 import { getMyInfo, logout, refreshToken } from "@/services/user";
 import { getUserFromStorage, setUserInStorage } from "@/utils/storage";
 import { defineStore } from "pinia";
@@ -14,7 +14,7 @@ import { defineStore } from "pinia";
 export const useUserStore = defineStore({
   id: "user",
   state: () => ({
-    info: getUserFromStorage(),
+    info: {} as UserInfoDTO,
     token: "",
   }),
   getters: {

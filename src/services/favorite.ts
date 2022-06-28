@@ -3,11 +3,11 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: 关注列表相关 API
- * @LastEditTime: 2022-06-06 16:30:20
+ * @LastEditTime: 2022-06-26 18:29:04
  */
 
 import { request } from "@/utils/request";
-import type { FavoriteItemDTO } from "#/favorite.d";
+import type { FavoriteItemDTO } from "#/favorite";
 
 /**
  * @description: 获取关注列表
