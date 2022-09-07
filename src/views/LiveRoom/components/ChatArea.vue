@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-06-28 15:37:27
+ * @LastEditTime: 2022-08-03 09:31:27
 -->
 <template>
   <div class="message-container">
@@ -21,7 +21,7 @@
           <!-- 主播在直播间发弹幕会有标识 -->
           <common-icon-font
             v-if="room.info.anchor.username === msg.fromUsername"
-            type="icon-renzheng-"
+            type="icon-lanVrenzheng"
           />
           <!-- TODO 昵称 click 显示用户信息 -->
           <span class="danmu-nickname">{{ msg.fromNickname }}: </span>

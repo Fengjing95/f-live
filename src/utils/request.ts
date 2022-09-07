@@ -69,7 +69,7 @@ request.interceptors.response.use(
             });
           }
         default:
-          Message.error(response.msg);
+          Message.warning(response.msg);
           return null;
       }
     }

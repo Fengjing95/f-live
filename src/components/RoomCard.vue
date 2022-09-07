@@ -4,7 +4,7 @@ RoomDTO
  * @Author: 枫
  * @LastEditors: 枫
  * @description: 直播间展示卡片
- * @LastEditTime: 2022-06-27 11:15:50
+ * @LastEditTime: 2022-07-07 20:00:17
 -->
 <template>
   <a-card class="room-card" hoverable>
@@ -34,7 +34,11 @@ RoomDTO
         <div class="mask" v-if="!room.isLiving">
           <div class="info-wrapper">
             <p class="info-head"><icon-clock-circle /> 上次开播</p>
-            <p>{{ utcToLocal(room.lastLiveTime) }}</p>
+            <p>
+              {{
+                room.lastLiveTime ? utcToLocal(room.lastLiveTime) : "从未开播"
+              }}
+            </p>
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-06-21 20:01:54
+ * @LastEditTime: 2022-07-18 22:25:50
 -->
 <script setup lang="ts">
 import { RouterView, useRouter } from "vue-router";
@@ -59,8 +59,6 @@ if (!user.token) {
         </a-menu-item>
       </a-menu>
       <div class="user-toolbar">
-        <!-- TODO 历史观看 -->
-        <!-- TODO 消息通知 -->
         <!-- 动态渲染用户头像或者登录按钮 -->
         <div class="login-toolbar" v-if="user.info?.userId">
           <div class="user-avatar-action">
@@ -74,6 +72,8 @@ if (!user.token) {
         </div>
 
         <span class="unlogin" v-else @click="global.startLogin">&nbsp;</span>
+        <!-- TODO 历史观看 -->
+        <!-- TODO 消息通知 -->
       </div>
     </div>
   </div>

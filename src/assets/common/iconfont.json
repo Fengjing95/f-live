@@ -6,18 +6,18 @@
   "description": "",
   "glyphs": [
     {
-      "icon_id": "4450243",
-      "name": "实名认证",
-      "font_class": "shimingrenzheng",
-      "unicode": "e6cc",
-      "unicode_decimal": 59084
+      "icon_id": "13648399",
+      "name": "麦克风",
+      "font_class": "maikefeng",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
     },
     {
-      "icon_id": "7447601",
-      "name": "认证-01",
-      "font_class": "renzheng-",
-      "unicode": "e629",
-      "unicode_decimal": 58921
+      "icon_id": "26082681",
+      "name": "主播成长",
+      "font_class": "zhubochengchang",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
     },
     {
       "icon_id": "26797066",
@@ -25,6 +25,62 @@
       "font_class": "renzheng",
       "unicode": "10071",
       "unicode_decimal": 65649
+    },
+    {
+      "icon_id": "29957517",
+      "name": "蓝V认证",
+      "font_class": "lanVrenzheng",
+      "unicode": "100d2",
+      "unicode_decimal": 65746
+    },
+    {
+      "icon_id": "29957526",
+      "name": "身份证认证",
+      "font_class": "shenfenzhengrenzheng",
+      "unicode": "100d3",
+      "unicode_decimal": 65747
+    },
+    {
+      "icon_id": "29957527",
+      "name": "安全认证",
+      "font_class": "anquanrenzheng",
+      "unicode": "100d4",
+      "unicode_decimal": 65748
+    },
+    {
+      "icon_id": "29957532",
+      "name": "银行卡认证",
+      "font_class": "yinhangkarenzheng",
+      "unicode": "100d5",
+      "unicode_decimal": 65749
+    },
+    {
+      "icon_id": "29957533",
+      "name": "手机认证",
+      "font_class": "shoujirenzheng",
+      "unicode": "100d6",
+      "unicode_decimal": 65750
+    },
+    {
+      "icon_id": "29957538",
+      "name": "视频认证",
+      "font_class": "shipinrenzheng",
+      "unicode": "100d7",
+      "unicode_decimal": 65751
+    },
+    {
+      "icon_id": "29957539",
+      "name": "资料认证",
+      "font_class": "ziliaorenzheng",
+      "unicode": "100d8",
+      "unicode_decimal": 65752
+    },
+    {
+      "icon_id": "29957542",
+      "name": "自媒体认证",
+      "font_class": "zimeitirenzheng",
+      "unicode": "100d9",
+      "unicode_decimal": 65753
     }
   ]
 }

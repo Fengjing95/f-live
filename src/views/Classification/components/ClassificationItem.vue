@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: 分类 item 组件
- * @LastEditTime: 2022-06-28 19:32:07
+ * @LastEditTime: 2022-07-08 19:20:25
 -->
 <template>
   <div class="classification-card">
@@ -30,7 +30,8 @@ defineProps<{ classInfo: Classification }>();
   box-sizing: border-box;
   padding: 13px 9px;
   border-radius: @custom_border-radius;
-  border: @custom_border;
+  // border: @custom_border;
+  background-color: #fff;
   transition: 0.15s;
   color: #666;
   text-align: center;

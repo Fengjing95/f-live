@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-06-28 15:38:36
+ * @LastEditTime: 2022-07-05 10:49:57
 -->
 <template>
   <anchor-tool v-if="isAnchor" />
@@ -181,7 +181,7 @@ async function unFollow() {
   const res = await unFollowRoom(props.roomId);
   if (res) {
     room.isLike = false;
-    room.info.fans = await gerRoomFansNum(props.roomId);
+    room.info.fans = (await gerRoomFansNum(props.roomId)) || 0;
   }
 }
 </script>
