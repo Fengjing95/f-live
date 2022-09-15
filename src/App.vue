@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-07-18 22:25:50
+ * @LastEditTime: 2022-09-09 11:05:27
 -->
 <script setup lang="ts">
 import { RouterView, useRouter } from "vue-router";
@@ -38,7 +38,7 @@ if (!user.token) {
           backgroundColor: 'rgba(0,0,0,0)',
           width: '50%',
         }"
-        :selected-keys="[router.currentRoute.value.path]"
+        :selected-keys="[router.currentRoute.value.matched[0]?.path]"
       >
         <a-menu-item
           key="0"

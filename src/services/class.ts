@@ -6,7 +6,7 @@
  * @LastEditTime: 2022-06-27 15:40:17
  */
 import type { Classification } from "#/class";
-import type { RoomDTO } from "#/room";
+import type { RoomInfoDTO } from "#/room";
 import { request } from "@/utils/request";
 
 /**
@@ -23,6 +23,6 @@ export async function getClasses(): Promise<Classification[]> {
  * @param {number} classId 分类 ID
  * @return {*}
  */
-export async function getRoomsByClassId(classId: string): Promise<RoomDTO[]> {
+export async function getRoomsByClassId(classId: string): Promise<RoomInfoDTO[]> {
   return await request.get(`/classification/class/${classId}`);
 }

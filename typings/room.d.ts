@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-06-27 11:14:59
+ * @LastEditTime: 2022-09-10 22:31:29
  */
 import type { UserInfoDTO } from "./user";
 
@@ -22,7 +22,7 @@ export interface Room {
   personCount: number;
 }
 
-export interface RoomDTO {
+export interface RoomInfoDTO {
   roomId: number;
   beautifulId: string;
   title: string;

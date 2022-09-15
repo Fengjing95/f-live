@@ -33,7 +33,7 @@
 
 <script setup lang="ts">
 import { useUserStore } from "@/stores/user";
-import type { MessageDTO, Room, RoomDTO } from "#/room";
+import type { MessageDTO, Room, RoomInfoDTO } from "#/room";
 import {
   followRoom,
   gerRoomFansNum,
@@ -57,7 +57,7 @@ const props = defineProps<{ roomId: string }>();
 // 子组件元素 ref
 const messageChildRef = ref();
 const room = reactive<Room>({
-  info: {} as RoomDTO,
+  info: {} as RoomInfoDTO,
   isLike: false,
   msgList: [],
   personCount: 0,

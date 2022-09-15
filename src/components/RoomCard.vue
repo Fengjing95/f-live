@@ -69,10 +69,10 @@ import {
 import { useRouter } from "vue-router";
 import { utcToLocal } from "@/utils/time";
 import type { Classification } from "#/class";
-import type { RoomDTO } from "#/room";
+import type { RoomInfoDTO } from "#/room";
 
 const props = defineProps<{
-  room: RoomDTO;
+  room: RoomInfoDTO;
   anchor: UserInfoDTO;
   classification: Classification;
 }>();

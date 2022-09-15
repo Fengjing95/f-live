@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import type { RoomDTO } from "#/room";
+import type { RoomInfoDTO } from "#/room";
 import { getRoomsByClassId } from "@/services/class";
 import { onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
@@ -34,7 +34,7 @@ import RoomCard from "@/components/RoomCard.vue";
 import { IconEmpty } from "@arco-design/web-vue/es/icon";
 
 const route = useRoute();
-const rooms = ref<RoomDTO[]>([]);
+const rooms = ref<RoomInfoDTO[]>([]);
 
 onMounted(async () => {
   rooms.value = await getRoomsByClassId(route.params.classKey as string);

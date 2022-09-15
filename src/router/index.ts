@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-06-27 17:02:04
+ * @LastEditTime: 2022-09-13 21:02:42
  */
 import { createRouter, createWebHistory } from "vue-router";
 
@@ -43,6 +43,28 @@ const router = createRouter({
       path: "/citadel",
       name: "citadel",
       component: () => import("../views/StrongHold/StrongHold.vue"),
+      children: [
+        {
+          path: "",
+          name: "citadelHome",
+          component: () => import("../views/StrongHold/FollowDynamic.vue"),
+        },
+        {
+          path: ":citadelId",
+          name: "citadelDetail",
+          component: () => import("../views/StrongHold/CitadelDetail.vue"),
+          props: (route) => ({ citadelId: Number(route.params.citadelId) }),
+        },
+        {
+          path: ":citadelId/post/:postId",
+          name: "postDetail",
+          component: () => import("../views/StrongHold/PostDetail.vue"),
+          props: (route) => ({
+            citadelId: Number(route.params.citadelId),
+            postId: Number(route.params.postId),
+          }),
+        },
+      ],
       meta: {
         menuName: "根据地",
       },

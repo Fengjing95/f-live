@@ -32,11 +32,11 @@ import { reactive } from "vue";
 import RoomCard from "@/components/RoomCard.vue";
 import { afterLogin } from "@/utils/actionAfterLogin";
 import { IconEmpty } from "@arco-design/web-vue/es/icon";
-import type { RoomDTO } from "#/room";
+import type { RoomInfoDTO } from "#/room";
 // TODO 分页
 let list = reactive({
   page: 1,
-  content: [] as RoomDTO[],
+  content: [] as RoomInfoDTO[],
   total: 0,
 });
 

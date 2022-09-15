@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-06-06 11:14:16
+ * @LastEditTime: 2022-09-10 22:03:01
  */
 export interface LoginDTO {
   username: string;
@@ -25,6 +25,19 @@ export interface UserInfoDTO {
   avatar: string;
   description: string;
   role: number; // 0 普通用户 1 主播 2 超管
+  createTime: string;
+  updateTime: string;
+  updateCount: number;
+  freeze: number;
+}
+
+export interface Author {
+  userId: string;
+  nickname: string;
+  username: string;
+  avatar: string;
+  description?: any;
+  role: number;
   createTime: string;
   updateTime: string;
   updateCount: number;
