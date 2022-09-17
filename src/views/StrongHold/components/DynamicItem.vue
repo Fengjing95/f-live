@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: 动态卡片 item
- * @LastEditTime: 2022-09-14 22:35:33
+ * @LastEditTime: 2022-09-17 17:00:36
 -->
 <template>
   <div class="d_container">
@@ -30,12 +30,18 @@
           </template>
         </div>
       </div>
-      <div
-        class="d_header-thumb"
-        :class="props.dynamic.isThumb ? 'active' : ''"
-        @click="handleThumb"
-      >
-        <icon-thumb-up />{{ props.dynamic.thumbsCount ?? "赞" }}
+      <!-- 点赞评论 btn -->
+      <div style="display: flex">
+        <div
+          class="d_header-thumb"
+          :class="props.dynamic.isThumb ? 'active' : ''"
+          @click="handleThumb"
+        >
+          <icon-thumb-up />{{ props.dynamic.thumbsCount || "赞" }}
+        </div>
+        <div class="d_header-thumb" @click="handleReview">
+          <icon-message />{{ props.dynamic.reviewsCount || "评论" }}
+        </div>
       </div>
     </div>
     <div class="d_text">
@@ -54,6 +60,20 @@
     </div>
     <div class="d_images">
       <!-- 帖子图片内容 -->
+      <!-- <template> -->
+      <img
+        v-for="(img, index) in props.dynamic.imageList"
+        :key="img"
+        :src="img"
+        @click="checkImage(index)"
+      />
+      <a-image-preview-group
+        v-model:visible="imageVisible"
+        v-model:current="current"
+        :srcList="props.dynamic.imageList"
+        infinite
+      />
+      <!-- </template> -->
     </div>
   </div>
 </template>
@@ -62,8 +82,9 @@
 import type { DynamicDTO } from "#/citadel";
 import { utcToLocal } from "@/utils/time";
 import { useRouter } from "vue-router";
-import { IconThumbUp } from "@arco-design/web-vue/es/icon";
+import { IconThumbUp, IconMessage } from "@arco-design/web-vue/es/icon";
 import { cancelThumb, thumb } from "@/services/citadel";
+import { ref } from "vue";
 
 const props = withDefaults(
   defineProps<{
@@ -81,6 +102,19 @@ const emit = defineEmits<{
 
 const router = useRouter();
 
+// 多图预览
+const imageVisible = ref(false);
+const current = ref(1);
+/**
+ * 更改当前图片为点击图片,显示预览
+ * @param index 图片索引
+ */
+function checkImage(index: number) {
+  current.value = index;
+  imageVisible.value = true;
+}
+
+// 点赞事件绑定
 async function handleThumb() {
   if (props.dynamic.isThumb) {
     // 如果已经点赞就取消点赞
@@ -95,6 +129,11 @@ async function handleThumb() {
       emit("thumb");
     }
   }
+}
+
+// 评论时间绑定
+async function handleReview() {
+  // TODO 评论跳转
 }
 </script>
 
@@ -133,6 +172,10 @@ async function handleThumb() {
       &:hover {
         color: @primary-custom;
       }
+
+      &:first-of-type {
+        margin-right: 5px;
+      }
     }
 
     .active {
@@ -145,15 +188,30 @@ async function handleThumb() {
     .d_text-title {
       font-size: 15px;
       cursor: pointer;
+      display: inline-block;
     }
 
     .d_text-content {
       font-size: 13px;
       color: #999;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      -webkit-line-clamp: 3;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
     }
   }
 
   .d_images {
+    padding: 20px 50px 0 50px;
+    img {
+      width: 150px;
+      height: 150px;
+      border-radius: 12px;
+      cursor: zoom-in;
+      object-fit: cover;
+      margin-right: 10px;
+    }
   }
 }
 </style>

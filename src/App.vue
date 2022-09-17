@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-09-09 11:05:27
+ * @LastEditTime: 2022-09-15 23:01:28
 -->
 <script setup lang="ts">
 import { RouterView, useRouter } from "vue-router";
@@ -92,6 +92,10 @@ if (!user.token) {
 body {
   margin: 0 auto;
   padding: 0;
+}
+
+* {
+  position: static;
 }
 </style>
 

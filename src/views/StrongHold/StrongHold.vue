@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-09-13 22:04:45
+ * @LastEditTime: 2022-09-15 22:55:36
 -->
 <template>
   <div class="citadel-container">
@@ -86,17 +86,19 @@ onMounted(async () => {
     width: 250px;
     position: relative;
     padding: 15px;
-    height: 100%;
+    // height: 100%;
     position: relative;
 
     ul {
       position: absolute;
-      top: 20px;
+      top: 0;
       left: 0;
+      padding-top: 20px;
       width: 100%;
       height: calc(100vh - 62px);
       background-color: #fff;
       padding: 0;
+      box-sizing: border-box;
       li {
         list-style-type: none;
         cursor: pointer;
