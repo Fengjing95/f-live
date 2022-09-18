@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: 动态卡片 item
- * @LastEditTime: 2022-09-17 17:00:36
+ * @LastEditTime: 2022-09-18 22:08:49
 -->
 <template>
   <div class="d_container">
@@ -46,14 +46,7 @@
     </div>
     <div class="d_text">
       <!-- 帖子文本内容 -->
-      <div
-        class="d_text-title"
-        @click="
-          router.push(
-            `/citadel/${props.citadelId}/post/${props.dynamic.postId}`
-          )
-        "
-      >
+      <div class="d_text-title" @click="openDetail">
         {{ props.dynamic.title }}
       </div>
       <div class="d_text-content">{{ props.dynamic.contentText }}</div>
@@ -131,9 +124,16 @@ async function handleThumb() {
   }
 }
 
-// 评论时间绑定
+function openDetail() {
+  window.open(`/citadel/${props.citadelId}/post/${props.dynamic.postId}`);
+}
+
+// 评论事件绑定
 async function handleReview() {
   // TODO 评论跳转
+  window.open(
+    `/citadel/${props.citadelId}/post/${props.dynamic.postId}?scroll=review`
+  );
 }
 </script>
 

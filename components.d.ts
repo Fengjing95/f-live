@@ -24,6 +24,7 @@ declare module '@vue/runtime-core' {
     AMenuItem: typeof import('@arco-design/web-vue')['MenuItem']
     AModal: typeof import('@arco-design/web-vue')['Modal']
     APageHeader: typeof import('@arco-design/web-vue')['PageHeader']
+    APagination: typeof import('@arco-design/web-vue')['Pagination']
     APopconfirm: typeof import('@arco-design/web-vue')['Popconfirm']
     ARow: typeof import('@arco-design/web-vue')['Row']
     ASpace: typeof import('@arco-design/web-vue')['Space']

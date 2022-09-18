@@ -3,10 +3,11 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description:  根据地接口
- * @LastEditTime: 2022-09-14 21:35:41
+ * @LastEditTime: 2022-09-18 20:38:41
  */
 
 import type { CitadelInfoDTO, DynamicDTO, FollowDTO } from "#/citadel";
+import type { PostDetailDTO, PostCreateDTO } from "#/post";
 import type { PaginationResponseData } from "#/util";
 import { request } from "@/utils/request";
 
@@ -34,9 +35,11 @@ export async function getFollowCitadel(): Promise<FollowDTO[]> {
  * @returns
  */
 export async function getDynamicInCitadel(
-  citadelId: number
+  citadelId: number,
+  page?: number,
+  size?: number
 ): Promise<PaginationResponseData<DynamicDTO>> {
-  return await request.get(`/citadel/${citadelId}`);
+  return await request.get(`/citadel/${citadelId}?page=${page}&size=${size}`);
 }
 
 /**
@@ -66,4 +69,43 @@ export async function thumb(postId: number): Promise<boolean> {
  */
 export async function cancelThumb(postId: number): Promise<boolean> {
   return await request.delete(`/citadel/post/${postId}/thumb`);
+}
+
+/**
+ * 发布文章
+ * @param citadelId 根据地 ID
+ * @param post 文章实体
+ * @returns
+ */
+export async function publishPost(
+  citadelId: number,
+  post: PostCreateDTO
+): Promise<boolean> {
+  return await request.post(`/citadel/${citadelId}/post`, post);
+}
+
+/**
+ * 删除文章
+ * @param citadelId 根据地 ID
+ * @param postId 文章 ID
+ * @returns
+ */
+export async function delPostInCitadel(
+  citadelId: number,
+  postId: number
+): Promise<boolean> {
+  return await request.delete(`/citadel/${citadelId}/post/${postId}`);
+}
+
+/**
+ * 获取文章详情
+ * @param citadelId 根据地 ID
+ * @param postId 文章 ID
+ * @returns
+ */
+export async function getPostDetail(
+  citadelId: number,
+  postId: number
+): Promise<PostDetailDTO> {
+  return await request.get(`/citadel/${citadelId}/post/${postId}`);
 }

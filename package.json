@@ -12,6 +12,8 @@
   "dependencies": {
     "@arco-design/web-vue": "^2.36.1",
     "@arco-themes/vue-orange": "^0.0.1",
+    "@wangeditor/editor": "^5.1.18",
+    "@wangeditor/editor-for-vue": "^5.1.12",
     "axios": "^0.27.2",
     "jsencrypt": "^3.2.1",
     "moment": "^2.29.4",

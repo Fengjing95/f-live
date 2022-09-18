@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-09-15 23:01:28
+ * @LastEditTime: 2022-09-18 21:49:49
 -->
 <script setup lang="ts">
 import { RouterView, useRouter } from "vue-router";
@@ -97,6 +97,10 @@ body {
 * {
   position: static;
 }
+
+img {
+  max-width: 100%;
+}
 </style>
 
 <style scoped lang="less">
@@ -105,7 +109,7 @@ body {
   // margin: -14px -20px 0 -20px;
   width: 100%;
   min-width: @custom_width;
-  position: sticky;
+  position: fixed;
   top: 0;
   display: flex;
   justify-content: center;
@@ -182,7 +186,7 @@ body {
   min-width: @custom_width;
   display: flex;
   justify-content: center;
-  padding: 20px 0;
+  padding: 82px 0 20px 0;
   .content {
     width: @custom_width;
   }

@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-09-13 21:02:42
+ * @LastEditTime: 2022-09-18 18:46:06
  */
 import { createRouter, createWebHistory } from "vue-router";
 
@@ -28,17 +28,26 @@ const router = createRouter({
     {
       path: "/classification",
       name: "classification",
-      component: () => import("../views/Classification/ClassificationList.vue"),
+      component: () => import("../views/Classification/ClassHome.vue"),
       meta: {
         menuName: "分类",
       },
+      children: [
+        {
+          path: "",
+          name: "classificationHome",
+          component: () =>
+            import("../views/Classification/ClassificationList.vue"),
+        },
+        {
+          path: "/classification/:classKey",
+          name: "classificationDetail",
+          component: () => import("../views/Classification/RoomList.vue"),
+          props: true,
+        },
+      ],
     },
-    {
-      path: "/classification/:classKey",
-      name: "classificationDetail",
-      component: () => import("../views/Classification/RoomList.vue"),
-      props: true,
-    },
+
     {
       path: "/citadel",
       name: "citadel",

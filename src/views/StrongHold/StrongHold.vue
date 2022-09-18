@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-09-15 22:55:36
+ * @LastEditTime: 2022-09-17 22:51:56
 -->
 <template>
   <div class="citadel-container">
@@ -79,25 +79,19 @@ onMounted(async () => {
   margin-top: -20px;
   display: flex;
 
-  & > div {
-    background-color: #fff;
-  }
   .citadel-sidebar {
     width: 250px;
     position: relative;
-    padding: 15px;
+    // padding: 15px;
     // height: 100%;
     position: relative;
 
     ul {
-      position: absolute;
-      top: 0;
-      left: 0;
-      padding-top: 20px;
-      width: 100%;
+      position: fixed;
+      padding: 20px 0;
+      width: 240px;
       height: calc(100vh - 62px);
       background-color: #fff;
-      padding: 0;
       box-sizing: border-box;
       li {
         list-style-type: none;
@@ -112,6 +106,7 @@ onMounted(async () => {
   }
 
   .citadel-content {
+    background-color: #fff;
     margin-left: 15px;
     flex: 1;
     // padding: 0 15px;

@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: 根据地类型文件
- * @LastEditTime: 2022-09-14 21:27:57
+ * @LastEditTime: 2022-09-18 20:38:44
  */
 import { Author } from "./user";
 import { RoomInfoDTO } from "./room";
