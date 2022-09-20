@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-09-18 14:05:43
+ * @LastEditTime: 2022-09-20 23:19:55
 -->
 <template>
   <div class="dynamic-container">
@@ -27,6 +27,22 @@
       "
     />
   </div>
+  <div class="paginator">
+    <a-pagination
+      :total="data.dynamic.total"
+      :current="current"
+      :page-size="pageSize"
+      @page-size-change="(p) => (pageSize = p)"
+      @change="
+        async (c) => {
+          current = c;
+        }
+      "
+      show-total
+      show-jumper
+      show-page-size
+    />
+  </div>
 
   <!-- <div v-for="d in data.dynamic.content" :key="d.postId">
     {{ d.createTime }}
@@ -37,7 +53,7 @@
 import type { DynamicDTO } from "#/citadel";
 import type { PaginationResponseData } from "#/util";
 import { getHomeDynamic } from "@/services/citadel";
-import { onMounted, reactive } from "vue";
+import { onMounted, reactive, ref } from "vue";
 import DynamicItem from "./components/DynamicItem.vue";
 
 const data = reactive<{
@@ -49,6 +65,9 @@ const data = reactive<{
   },
 });
 
+const current = ref(1);
+const pageSize = ref(20);
+
 onMounted(async () => {
   data.dynamic = await getHomeDynamic();
 });
@@ -57,5 +76,11 @@ onMounted(async () => {
 <style scoped lang="less">
 .dynamic-container {
   padding: 32px 20px;
+}
+
+.paginator {
+  display: flex;
+  justify-content: center;
+  margin: 10px 0;
 }
 </style>

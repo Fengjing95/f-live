@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: 动态卡片 item
- * @LastEditTime: 2022-09-18 22:08:49
+ * @LastEditTime: 2022-09-20 23:21:14
 -->
 <template>
   <div class="d_container">
@@ -141,9 +141,9 @@ async function handleReview() {
 .d_container {
   padding: 10px 0;
 
-  &:not(:last-child) {
-    border-bottom: 1px solid #e1e0e0;
-  }
+  // &:not(:last-of-type) {
+  border-bottom: 1px solid #e1e0e0;
+  // }
 
   .d_header {
     display: flex;
