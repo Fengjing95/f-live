@@ -3,10 +3,12 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-09-18 22:45:40
+ * @LastEditTime: 2022-09-20 23:14:29
 -->
 <template>
   <div class="post_container">
+    <!-- 骨架屏 -->
+    <post-skeleton v-show="!post.title" />
     <!-- 标题 -->
     <h1 class="post_title">{{ post.title }}</h1>
 
@@ -47,20 +49,64 @@
     <!-- 帖子内容 -->
     <div class="post_content" v-html="post.content"></div>
 
-    <!-- TODO 评论 -->
+    <a-divider orientation="center">共 {{ total }} 条评论</a-divider>
+
+    <!-- 输入框 -->
+    <div class="reply_textarea">
+      <a-avatar shape="square" :size="72">
+        <img :src="user.info.avatar" />
+      </a-avatar>
+      <a-textarea
+        style="flex: 1; margin: 0 10px"
+        v-model="editReview.content"
+        :placeholder="placeholder"
+        allow-clear
+      />
+      <a-space direction="vertical">
+        <a-button type="primary" @click="handlePostReview">发布评论</a-button>
+        <a-button :disabled="!editReview.reviewId" @click="handleCancelReply">
+          取消回复
+        </a-button>
+      </a-space>
+    </div>
+
+    <!-- 分页 -->
+    <div class="paginator">
+      <a-pagination
+        :total="total"
+        :current="current"
+        :page-size="pageSize"
+        @page-size-change="(p) => (pageSize = p)"
+        @change="async (c) => (current = c)"
+        show-jumper
+        show-page-size
+      />
+    </div>
+
+    <!-- 评论内容 -->
+    <review-item
+      v-for="r in review"
+      :key="r.reviewId"
+      :review="r"
+      @reply="handleReply(r.reviewId, r.fromUser.nickname)"
+      :currentUserId="user.info.userId"
+      @reload="loadReview"
+    />
   </div>
 </template>
 
 <script setup lang="ts">
-import type { PostDetailDTO } from "#/post";
+import type { PostDetailDTO, ReviewDTO } from "#/post";
 import {
   cancelThumb,
   delPostInCitadel,
   getPostDetail,
+  getReviewInPost,
+  postReview,
   thumb,
 } from "@/services/citadel";
 import { useUserStore } from "@/stores/user";
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed } from "vue";
 import { utcToLocal } from "../../utils/time";
 import {
   IconDelete,
@@ -69,10 +115,29 @@ import {
 } from "@arco-design/web-vue/es/icon";
 import { Message } from "@arco-design/web-vue";
 import { useRouter, useRoute } from "vue-router";
+import PostSkeleton from "./components/PostSkeleton.vue";
+import ReviewItem from "./components/ReviewItem.vue";
+import { watch } from "vue";
+import { reactive } from "vue";
 
 const props = defineProps<{ citadelId: number; postId: number }>();
 
 const post = ref<Partial<PostDetailDTO>>({
+  content: "",
+});
+
+const review = ref<ReviewDTO[]>();
+
+const total = ref(0); // 总评论数
+const current = ref(1); // 当前页码
+const pageSize = ref(20); // 页容量
+
+const editReview = reactive<{
+  reviewId?: number;
+  nickname: string;
+  content: string;
+}>({
+  nickname: "",
   content: "",
 });
 
@@ -82,9 +147,31 @@ const route = useRoute();
 
 console.log(route.query.scroll);
 
+// 输入框 placeholder
+const placeholder = computed(() =>
+  editReview.nickname ? `回复 @${editReview.nickname}:` : "在此输入你的想法"
+);
+
+// 加载评论
+async function loadReview() {
+  const reviewData = await getReviewInPost(
+    props.postId,
+    current.value,
+    pageSize.value
+  );
+  review.value = reviewData.content;
+  total.value = reviewData.total;
+}
+
 // 初始化数据
 onMounted(async () => {
   post.value = await getPostDetail(props.citadelId, props.postId);
+  await loadReview();
+});
+
+// 分页数据变化重新请求
+watch([current, pageSize], () => {
+  loadReview();
 });
 
 // 点赞事件绑定
@@ -118,6 +205,35 @@ async function handleDelete() {
     router.push(`/citadel/${props.citadelId}`);
   }
 }
+
+// 回复
+function handleReply(reviewId: number, nickname: string) {
+  editReview.reviewId = reviewId;
+  editReview.nickname = nickname;
+}
+
+// 取消回复
+function handleCancelReply() {
+  editReview.reviewId = undefined;
+  editReview.nickname = "";
+}
+
+// 发布评论
+async function handlePostReview() {
+  const success = await postReview(props.postId, {
+    content: editReview.content,
+    parentReview: editReview.reviewId,
+  });
+
+  if (success) {
+    Message.success("发布成功");
+    // 清空输入框
+    editReview.reviewId = undefined;
+    editReview.nickname = "";
+    editReview.content = "";
+    loadReview();
+  }
+}
 </script>
 
 <style scoped lang="less">
@@ -142,6 +258,16 @@ async function handleDelete() {
   }
 
   .post_content {
+  }
+
+  .reply_textarea {
+    display: flex;
+  }
+
+  .paginator {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
   }
 }
 </style>

@@ -3,11 +3,11 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description:  根据地接口
- * @LastEditTime: 2022-09-18 20:38:41
+ * @LastEditTime: 2022-09-20 23:12:04
  */
 
 import type { CitadelInfoDTO, DynamicDTO, FollowDTO } from "#/citadel";
-import type { PostDetailDTO, PostCreateDTO } from "#/post";
+import type { PostDetailDTO, PostCreateDTO, ReviewDTO } from "#/post";
 import type { PaginationResponseData } from "#/util";
 import { request } from "@/utils/request";
 
@@ -108,4 +108,43 @@ export async function getPostDetail(
   postId: number
 ): Promise<PostDetailDTO> {
   return await request.get(`/citadel/${citadelId}/post/${postId}`);
+}
+
+/**
+ * 获取文章下的评论
+ * @param postId 文章 ID
+ * @param page 页码
+ * @param size 页容量
+ * @returns
+ */
+export async function getReviewInPost(
+  postId: number,
+  page?: number,
+  size?: number
+): Promise<PaginationResponseData<ReviewDTO>> {
+  return await request.get(
+    `/citadel/post/${postId}/review?page=${page}&size=${size}`
+  );
+}
+
+/**
+ * 发布评论
+ * @param postId 文章 ID
+ * @param review  评论内容
+ * @returns
+ */
+export async function postReview(
+  postId: number,
+  review: { content: string; parentReview?: number }
+): Promise<boolean> {
+  return await request.post(`/citadel/post/${postId}/review`, review);
+}
+
+/**
+ * 删除评论
+ * @param reviewId 评论 ID
+ * @returns
+ */
+export async function deleteReview(reviewId: number): Promise<boolean> {
+  return await request.delete(`/citadel/post/review/${reviewId}`);
 }

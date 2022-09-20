@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: 时间处理工具
- * @LastEditTime: 2022-06-09 17:48:55
+ * @LastEditTime: 2022-09-19 21:01:50
  */
 import moment from "moment";
 
@@ -117,6 +117,11 @@ export function utcToLocal(utcTime: string): string {
   return moment.utc(utcTime).local().format("YYYY-MM-DD HH:mm:ss");
 }
 
+/**
+ * 到现在获取多久
+ * @param utcTime utc 时间
+ * @returns
+ */
 export function fromNow(utcTime: string): string {
   return moment(utcTime).fromNow();
 }

@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: 根据地详情
- * @LastEditTime: 2022-09-18 22:11:05
+ * @LastEditTime: 2022-09-19 22:16:23
 -->
 <template>
   <a-page-header
@@ -107,12 +107,8 @@ onMounted(async () => {
 watch(() => props.citadelId, load);
 
 // 页码改变
-watch(current, async (current) => {
-  data.post = await getDynamicInCitadel(
-    props.citadelId,
-    current,
-    pageSize.value
-  );
+watch([current, pageSize], async ([current, pageSize]) => {
+  data.post = await getDynamicInCitadel(props.citadelId, current, pageSize);
 });
 
 async function reLoad() {

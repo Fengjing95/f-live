@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-09-10 22:03:01
+ * @LastEditTime: 2022-09-19 20:15:00
  */
 export interface LoginDTO {
   username: string;
@@ -36,7 +36,7 @@ export interface Author {
   nickname: string;
   username: string;
   avatar: string;
-  description?: any;
+  description?: string;
   role: number;
   createTime: string;
   updateTime: string;

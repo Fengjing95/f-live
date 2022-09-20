@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: 文章类型
- * @LastEditTime: 2022-09-18 22:17:19
+ * @LastEditTime: 2022-09-19 20:16:44
  */
 import { UserInfoDTO } from "./user";
 import { Citadel } from "./citadel";
@@ -26,4 +26,13 @@ export interface PostCreateDTO {
   content: string;
   contentText: string;
   imageList?: string[];
+}
+
+export interface ReviewDTO {
+  reviewId: number;
+  content: string;
+  createTime: string;
+  deleteTime?: string;
+  fromUser: UserInfoDTO;
+  parentReview?: ReviewDTO;
 }
