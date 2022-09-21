@@ -3,12 +3,12 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-06-06 15:01:50
+ * @LastEditTime: 2022-09-21 11:17:30
 -->
 <template>
   <a-form
     :model="registerForm"
-    @submit="register"
+    @submit-success="register"
     :label-col-props="{ span: 2, offset: 0 }"
     :wrapper-col-props="{ span: 20 }"
   >
@@ -147,7 +147,6 @@ import {
   IconUserGroup,
 } from "@arco-design/web-vue/es/icon";
 import { Message } from "@arco-design/web-vue";
-import type { ValidatedError } from "@arco-design/web-vue";
 import {
   isUsernameExist,
   sendMessage,
@@ -215,14 +214,7 @@ function userExistRule(value: string, cb: (s: string) => void) {
  * @param {*}
  * @return {*}
  */
-function register({
-  values,
-  errors,
-}: {
-  values: typeof registerForm;
-  errors: undefined | Record<string, ValidatedError>;
-}) {
-  if (errors) return;
+function register(values: Record<string, string>) {
   loading.value = true;
   let { username, nickname, phone, code, password } = values;
   getPublicKey(username)

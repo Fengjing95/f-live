@@ -3,12 +3,12 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-06-06 14:59:57
+ * @LastEditTime: 2022-09-21 11:13:08
 -->
 <template>
   <a-form
     :model="loginForm"
-    @submit="login"
+    @submit-success="login"
     :label-col-props="{ span: 2, offset: 0 }"
     :wrapper-col-props="{ span: 20 }"
   >
@@ -51,7 +51,6 @@ import { IconUser, IconLock } from "@arco-design/web-vue/es/icon";
 import { getPublicKey, loginByPassword } from "@/services/user";
 import { useGlobalStore } from "@/stores/global";
 import { Message } from "@arco-design/web-vue";
-import type { ValidatedError } from "@arco-design/web-vue";
 import { useUserStore } from "@/stores/user";
 import { encodeByPublicKey } from "@/utils/RSAEncode";
 
@@ -66,14 +65,7 @@ const loginForm = reactive({
  * @param {*}
  * @return {*}
  */
-function login({
-  values,
-  errors,
-}: {
-  values: typeof loginForm;
-  errors: undefined | Record<string, ValidatedError>;
-}) {
-  if (errors) return;
+function login(values: Record<string, string>) {
   loading.value = true;
   // 加密登录
   getPublicKey(values.username)
