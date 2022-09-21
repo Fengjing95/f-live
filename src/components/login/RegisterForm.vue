@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-09-21 11:17:30
+ * @LastEditTime: 2022-09-21 11:28:39
 -->
 <template>
   <a-form
@@ -156,6 +156,7 @@ import {
 import { useUserStore } from "@/stores/user";
 import { useGlobalStore } from "@/stores/global";
 import { encodeByPublicKey } from "@/utils/RSAEncode";
+import { getHashWithString } from "@/utils/md5";
 
 const loading = ref(false); // 注册按钮状态
 
@@ -219,7 +220,7 @@ function register(values: Record<string, string>) {
   let { username, nickname, phone, code, password } = values;
   getPublicKey(username)
     .then((key) => {
-      const encode = encodeByPublicKey(key, password);
+      const encode = encodeByPublicKey(key, getHashWithString(password));
       return { username, nickname, phone, code, password: encode };
     })
     .then(registerUser)

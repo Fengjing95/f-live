@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-09-21 11:13:08
+ * @LastEditTime: 2022-09-21 11:28:17
 -->
 <template>
   <a-form
@@ -53,6 +53,7 @@ import { useGlobalStore } from "@/stores/global";
 import { Message } from "@arco-design/web-vue";
 import { useUserStore } from "@/stores/user";
 import { encodeByPublicKey } from "@/utils/RSAEncode";
+import { getHashWithString } from "@/utils/md5";
 
 const loading = ref(false);
 const loginForm = reactive({
@@ -70,7 +71,10 @@ function login(values: Record<string, string>) {
   // 加密登录
   getPublicKey(values.username)
     .then((key) => {
-      const password = encodeByPublicKey(key, values.password);
+      const password = encodeByPublicKey(
+        key,
+        getHashWithString(values.password)
+      );
       return { username: values.username, password };
     })
     .then(loginByPassword)
