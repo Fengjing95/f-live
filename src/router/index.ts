@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-09-18 18:46:06
+ * @LastEditTime: 2022-09-21 11:41:08
  */
 import { createRouter, createWebHistory } from "vue-router";
 
@@ -76,6 +76,7 @@ const router = createRouter({
       ],
       meta: {
         menuName: "根据地",
+        needLogin: true,
       },
     },
     {

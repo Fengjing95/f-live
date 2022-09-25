@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-09-17 22:51:56
+ * @LastEditTime: 2022-09-22 09:17:31
 -->
 <template>
   <div class="citadel-container">
@@ -81,7 +81,6 @@ onMounted(async () => {
 
   .citadel-sidebar {
     width: 250px;
-    position: relative;
     // padding: 15px;
     // height: 100%;
     position: relative;
