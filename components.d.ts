@@ -6,6 +6,8 @@ import '@vue/runtime-core'
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     AAvatar: typeof import('@arco-design/web-vue')['Avatar']
+    ABackTop: typeof import('@arco-design/web-vue')['BackTop']
+    ABadge: typeof import('@arco-design/web-vue')['Badge']
     AButton: typeof import('@arco-design/web-vue')['Button']
     ACard: typeof import('@arco-design/web-vue')['Card']
     ACardMeta: typeof import('@arco-design/web-vue')['CardMeta']
@@ -33,6 +35,9 @@ declare module '@vue/runtime-core' {
     ASkeletonLine: typeof import('@arco-design/web-vue')['SkeletonLine']
     ASkeletonShape: typeof import('@arco-design/web-vue')['SkeletonShape']
     ASpace: typeof import('@arco-design/web-vue')['Space']
+    ASubMenu: typeof import('@arco-design/web-vue')['SubMenu']
+    ATabPane: typeof import('@arco-design/web-vue')['TabPane']
+    ATabs: typeof import('@arco-design/web-vue')['Tabs']
     ATextarea: typeof import('@arco-design/web-vue')['Textarea']
     ATooltip: typeof import('@arco-design/web-vue')['Tooltip']
     ATypographyText: typeof import('@arco-design/web-vue')['TypographyText']

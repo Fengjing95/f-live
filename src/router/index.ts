@@ -3,14 +3,19 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-09-21 11:41:08
+ * @LastEditTime: 2022-10-04 10:02:11
  */
 import { createRouter, createWebHistory } from "vue-router";
+import { IconNotification, IconUser } from "@arco-design/web-vue/es/icon";
+import type { Component } from "vue";
 
 declare module "vue-router" {
   interface RouteMeta {
     menuName?: string;
     needLogin?: boolean;
+    key?: string;
+    icon?: Component;
+    name?: string;
   }
 }
 
@@ -93,6 +98,34 @@ const router = createRouter({
       name: "live",
       component: () => import("../views/LiveRoom/LiveRoom.vue"),
       props: (route) => ({ roomId: route.params.roomId }),
+    },
+    {
+      path: "/member",
+      name: "member",
+      component: () => import("../views/MemberCenter/MemberCenter.vue"),
+      children: [
+        {
+          path: "information",
+          name: "memberInformation",
+          component: () => import("../views/MemberCenter/MemberNotice.vue"),
+          meta: {
+            name: "个人资料",
+            icon: IconUser,
+            key: "information",
+          },
+        },
+        {
+          path: "notice",
+          name: "memberNotice",
+          component: () => import("../views/MemberCenter/MemberNotice.vue"),
+          // props: (route) => ({ active: route.query.active || "thumb" }),
+          meta: {
+            name: "消息通知",
+            icon: IconNotification,
+            key: "notice",
+          },
+        },
+      ],
     },
   ],
 });

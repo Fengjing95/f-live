@@ -3,13 +3,18 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-09-18 21:49:49
+ * @LastEditTime: 2022-10-04 10:22:18
 -->
 <script setup lang="ts">
 import { RouterView, useRouter } from "vue-router";
 import { useGlobalStore } from "./stores/global";
 import { useUserStore } from "./stores/user";
 import LoginModal from "./components/login/LoginModal.vue";
+import { useNoticeStore } from "./stores/notice";
+import { afterLogin } from "./mixins/actionAfterLogin";
+import SharedWorker from "./workers/noticeSharedWorker?sharedworker";
+import { provide, ref } from "vue";
+import { IconNotification } from "@arco-design/web-vue/es/icon";
 // import { request } from "./utils/request";
 
 const router = useRouter();
@@ -20,7 +25,49 @@ const user = useUserStore();
 if (!user.token) {
   user.getUserInfo();
 }
-// request.post("/anchor/streamKey").catch((res) => {
+
+const port = ref<MessagePort>();
+provide("noticeWorker", port);
+
+function initNoticeWorker() {
+  const worker = new SharedWorker();
+  port.value = worker.port;
+
+  // 注入到全局
+
+  worker.port.start();
+  worker.port.addEventListener("message", (e) => {
+    switch (e.data.event) {
+      // 连接到 sharedworker 时, 目前没有操作
+      case "connected":
+        worker?.port.postMessage({ event: "init", payload: user.token });
+        break;
+
+      // 全部已读
+      //  TODO 触发已读的事件发送请求, 保存到本地, 共享事件
+      case "readAll":
+        notice.readAll();
+        break;
+
+      // 根据 ID 已读某条消息
+      case "read":
+        notice.readNoticeById(e.data.payload);
+        break;
+
+      // 新消息
+      case "newNotice":
+        notice.insertNoticeAtHead(e.data.payload);
+        break;
+    }
+  });
+}
+
+const notice = useNoticeStore();
+afterLogin(() => {
+  notice.getNotice();
+  initNoticeWorker();
+});
+// request.post("/anchor/streamKey")  .catch((res) => {
 //   console.log(res);
 // });
 // request.get("/user/myInfo").catch((res) => {
@@ -58,22 +105,42 @@ if (!user.token) {
           </template>
         </a-menu-item>
       </a-menu>
+
       <div class="user-toolbar">
         <!-- 动态渲染用户头像或者登录按钮 -->
-        <div class="login-toolbar" v-if="user.info?.userId">
-          <div class="user-avatar-action">
-            <a-avatar class="user-avatar">
-              <img alt="avatar" :src="user.info?.avatar" />
-            </a-avatar>
+        <template v-if="user.info?.userId">
+          <div class="login-toolbar">
+            <div class="user-avatar-action">
+              <a-avatar class="user-avatar">
+                <img alt="avatar" :src="user.info?.avatar" />
+              </a-avatar>
 
-            <!-- TODO 用户面板 hover -->
-            <div class="user-panel">1</div>
+              <!-- TODO 用户面板 hover -->
+              <div class="user-panel">1</div>
+            </div>
           </div>
-        </div>
+
+          <!-- TODO 历史观看 -->
+          <!-- 消息通知 -->
+          <div class="action">
+            <a-badge
+              :offset="[2, -2]"
+              :count="notice.notReadNumber"
+              :max-count="99"
+              :dotStyle="{
+                height: '15px',
+                lineHeight: '15px',
+              }"
+            >
+              <icon-notification
+                :size="26"
+                @click="router.push('/member/notice')"
+              />
+            </a-badge>
+          </div>
+        </template>
 
         <span class="unlogin" v-else @click="global.startLogin">&nbsp;</span>
-        <!-- TODO 历史观看 -->
-        <!-- TODO 消息通知 -->
       </div>
     </div>
   </div>
@@ -129,6 +196,7 @@ img {
       .login-toolbar {
         display: flex;
         align-items: center;
+        margin-right: 30px;
 
         .user-avatar-action {
           position: relative;
@@ -176,6 +244,13 @@ img {
         -moz-background-size: auto 100%;
         -webkit-background-size: auto 100%;
         -webkit-animation: unloginAnimate 1s steps(1) infinite;
+      }
+
+      .action {
+        cursor: pointer;
+        // &:hover {
+        //   transform: translateY(-5px);
+        // }
       }
     }
   }

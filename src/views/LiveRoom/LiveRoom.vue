@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-07-05 10:49:57
+ * @LastEditTime: 2022-09-27 09:12:47
 -->
 <template>
   <anchor-tool v-if="isAnchor" />
@@ -43,7 +43,7 @@ import {
 } from "@/services/room";
 import { io } from "socket.io-client";
 import { computed, onMounted, onUnmounted, reactive, ref } from "vue";
-import { afterLogin } from "@/utils/actionAfterLogin";
+import { afterLogin } from "@/mixins/actionAfterLogin";
 
 import PresentBar from "./components/PresentBar.vue";
 import TitleBar from "./components/TitleBar.vue";

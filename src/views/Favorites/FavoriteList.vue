@@ -4,7 +4,7 @@ RoomDTO
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-06-28 19:50:53
+ * @LastEditTime: 2022-09-27 09:12:50
 -->
 <template>
   <div :style="{ paddingTop: '20px' }">
@@ -30,7 +30,7 @@ RoomDTO
 import { getFavoriteList } from "@/services/favorite";
 import { reactive } from "vue";
 import RoomCard from "@/components/RoomCard.vue";
-import { afterLogin } from "@/utils/actionAfterLogin";
+import { afterLogin } from "@/mixins/actionAfterLogin";
 import { IconEmpty } from "@arco-design/web-vue/es/icon";
 import type { RoomInfoDTO } from "#/room";
 // TODO 分页
