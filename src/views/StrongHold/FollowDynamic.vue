@@ -3,46 +3,49 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-09-20 23:19:55
+ * @LastEditTime: 2022-10-05 15:30:56
 -->
 <template>
-  <div class="dynamic-container">
-    <DynamicItem
-      v-for="d in data.dynamic.content"
-      :key="d.postId"
-      :dynamic="d"
-      :showCitadel="true"
-      :citadelId="d.citadel.citadelId"
-      @thumb="
-        () => {
-          d.isThumb = 1;
-          d.thumbsCount++;
-        }
-      "
-      @cancelThumb="
-        () => {
-          d.isThumb = 0;
-          d.thumbsCount--;
-        }
-      "
-    />
-  </div>
-  <div class="paginator">
-    <a-pagination
-      :total="data.dynamic.total"
-      :current="current"
-      :page-size="pageSize"
-      @page-size-change="(p) => (pageSize = p)"
-      @change="
-        async (c) => {
-          current = c;
-        }
-      "
-      show-total
-      show-jumper
-      show-page-size
-    />
-  </div>
+  <template v-if="data.dynamic.total">
+    <div class="dynamic-container">
+      <DynamicItem
+        v-for="d in data.dynamic.content"
+        :key="d.postId"
+        :dynamic="d"
+        :showCitadel="true"
+        :citadelId="d.citadel.citadelId"
+        @thumb="
+          () => {
+            d.isThumb = 1;
+            d.thumbsCount++;
+          }
+        "
+        @cancelThumb="
+          () => {
+            d.isThumb = 0;
+            d.thumbsCount--;
+          }
+        "
+      />
+    </div>
+    <div class="paginator">
+      <a-pagination
+        :total="data.dynamic.total"
+        :current="current"
+        :page-size="pageSize"
+        @page-size-change="(p) => (pageSize = p)"
+        @change="
+          async (c) => {
+            current = c;
+          }
+        "
+        show-total
+        show-jumper
+        show-page-size
+      />
+    </div>
+  </template>
+  <a-empty v-else />
 
   <!-- <div v-for="d in data.dynamic.content" :key="d.postId">
     {{ d.createTime }}
