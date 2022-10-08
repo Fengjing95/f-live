@@ -1,6 +1,6 @@
 @font-face {
   font-family: "iconfont"; /* Project id  */
-  src: url('iconfont.ttf?t=1657339685537') format('truetype');
+  src: url('iconfont.ttf?t=1665194853476') format('truetype');
 }
 
 .iconfont {
@@ -9,6 +9,10 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-liuliang:before {
+  content: "\f02d9";
 }
 
 .icon-maikefeng:before {

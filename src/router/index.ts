@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-10-04 10:02:11
+ * @LastEditTime: 2022-10-08 16:53:43
  */
 import { createRouter, createWebHistory } from "vue-router";
 import { IconNotification, IconUser } from "@arco-design/web-vue/es/icon";
@@ -126,6 +126,11 @@ const router = createRouter({
           },
         },
       ],
+    },
+    {
+      path: "/:pathMatch(.*)*",
+      name: "NotFound",
+      component: () => import("../NotFound.vue"),
     },
   ],
 });

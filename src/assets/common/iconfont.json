@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "108775",
+      "name": "流量",
+      "font_class": "liuliang",
+      "unicode": "f02d9",
+      "unicode_decimal": 983769
+    },
+    {
       "icon_id": "13648399",
       "name": "麦克风",
       "font_class": "maikefeng",

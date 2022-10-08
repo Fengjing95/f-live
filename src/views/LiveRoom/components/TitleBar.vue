@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-07-09 12:14:40
+ * @LastEditTime: 2022-10-08 16:37:41
 -->
 <template>
   <div class="room-anchor-info">
@@ -15,15 +15,15 @@
 
     <div class="title-line">
       <div class="title-header">
-        <h3 class="title-header-content">{{ room.info.title }}</h3>
+        <h3 class="title-header-content">{{ props.room.info.title }}</h3>
         <div class="title-header-fans">
           <div class="fans-num">
-            <template v-if="typeof room.info?.fans === 'number'">{{
-              room.info.fans
+            <template v-if="typeof props.room.info?.fans === 'number'">{{
+              props.room.info.fans
             }}</template>
             <icon-loading v-else />
           </div>
-          <div v-if="!room.isLike" class="follow-btn" @click="follow">
+          <div v-if="!props.room.isLike" class="follow-btn" @click="follow">
             <icon-heart-fill />关注
           </div>
           <a-popconfirm
@@ -39,15 +39,19 @@
         </div>
       </div>
 
+      {{ props.room.info?.anchor?.description || "暂无简介" }}
+
       <div>
         <common-icon-font type="icon-maikefeng" />
-        {{ room.info.anchor?.nickname }}
+        {{ props.room.info.anchor?.nickname }}
         <span
           class="room-classification"
           @click="
-            router.push(`/classification/${room.info.classification.classKey}`)
+            router.push(
+              `/classification/${props.room.info.classification.classKey}`
+            )
           "
-          >{{ room.info.classification?.className }}</span
+          >{{ props.room.info.classification?.className }}</span
         >
       </div>
     </div>

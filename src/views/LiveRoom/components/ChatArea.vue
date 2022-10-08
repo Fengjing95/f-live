@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-08-03 09:31:27
+ * @LastEditTime: 2022-10-06 16:11:38
 -->
 <template>
   <div class="message-container">
@@ -17,7 +17,7 @@
 
     <div class="room-list">
       <div class="room-danmu-list" ref="msgListRef">
-        <div class="danmu" v-for="msg in room.msgList" :key="msg.id">
+        <div class="danmu-item" v-for="msg in room.msgList" :key="msg.id">
           <!-- 主播在直播间发弹幕会有标识 -->
           <common-icon-font
             v-if="room.info.anchor.username === msg.fromUsername"
@@ -164,7 +164,7 @@ function scrollBottom() {
       flex: 1;
       height: 0;
       overflow-y: auto;
-      .danmu {
+      .danmu-item {
         padding: 4px 16px;
       }
     }

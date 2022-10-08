@@ -3,16 +3,23 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-09-27 09:12:47
+ * @LastEditTime: 2022-10-08 17:41:08
 -->
 <template>
-  <anchor-tool v-if="isAnchor" />
+  <anchor-tool
+    v-if="isAnchor"
+    :isLive="room.info.isLiving"
+    @setLive="changeLiveStatus"
+    @setLastLiveTime="changeLastLiveTime"
+    @setStreamKey="changeStreamKey"
+  />
 
   <div class="room-container">
     <!-- 左侧区块 -->
     <div class="room-left">
       <title-bar :room="room" :follow="follow" :unFollow="unFollow" />
-      <div class="room-video"></div>
+      <!-- 根据开播状态控制 -->
+      <div class="room-video" id="mse"></div>
       <div class="room-present">
         <present-bar />
       </div>
@@ -44,11 +51,14 @@ import {
 import { io } from "socket.io-client";
 import { computed, onMounted, onUnmounted, reactive, ref } from "vue";
 import { afterLogin } from "@/mixins/actionAfterLogin";
-
 import PresentBar from "./components/PresentBar.vue";
 import TitleBar from "./components/TitleBar.vue";
 import ChatArea from "./components/ChatArea.vue";
 import AnchorTool from "./components/AnchorTool.vue";
+import "xgplayer";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import FlvPlayer from "xgplayer-flv";
 
 const userStore = useUserStore(); // pinia-user
 
@@ -105,6 +115,9 @@ const isLogin = afterLogin(async () => {
   });
 });
 
+// 播放器
+const playerRef = ref<FlvPlayer>();
+
 // 挂载完成时开始连接 socket
 onMounted(async () => {
   // 游客登录
@@ -114,12 +127,37 @@ onMounted(async () => {
   });
 
   room.info = await getRoomInfo(props.roomId);
-
   document.title = room.info.anchor.nickname + "_" + room.info.title;
+
+  if (room.info.isLiving) {
+    initPlayer();
+  }
   // 网页销毁时关闭 socket 连接
   // BUG: 不生效
   window.addEventListener("beforeunload", overSocket);
 });
+
+// 初始化播放器
+function initPlayer() {
+  if (playerRef.value) {
+    playerRef.value.destroy();
+  }
+  playerRef.value = new FlvPlayer({
+    id: "mse", // 容器元素 ID
+    url: import.meta.env.VITE_VIDEO_URL + room.info.streamKey + ".flv", // 拉流地址
+    isLive: true, // 直播模式
+    autoplay: true, // 自动播放
+    height: 500, // 高
+    width: 888, // 宽
+    pip: true, // 画中画
+    lang: "zh-cn",
+    ignores: ["replay"], // 忽略内置控件
+    danmu: {
+      // danmu 配置
+      comments: [],
+    },
+  });
+}
 
 // 离开页面时关闭 socket 连接
 onUnmounted(() => {
@@ -157,6 +195,21 @@ function initSocket() {
     data.id = data.fromUsername + new Date().getTime();
     saveMsgWithLimit300(data);
     messageChildRef.value.scrollBottom();
+    if (room.info.isLiving) {
+      playerRef.value.danmu.sendComment({
+        txt: data.msg,
+        id: data.id,
+        // TODO 弹幕样式可以进行扩展
+        style: {
+          color: "#ffffff",
+          // 如果是自己的添加边框
+          border:
+            data.fromUsername === userStore.info.username
+              ? "solid 1px #ffffff"
+              : "none",
+        },
+      });
+    }
   });
   // 返回 socket 实例
   return socket;
@@ -183,6 +236,21 @@ async function unFollow() {
     room.isLike = false;
     room.info.fans = (await gerRoomFansNum(props.roomId)) || 0;
   }
+}
+
+// 更新直播状态
+function changeLiveStatus(val: string | number | boolean) {
+  room.info.isLiving = val as boolean;
+}
+
+// 更新开播时间
+function changeLastLiveTime(val: string) {
+  room.info.lastLiveTime = val;
+}
+
+// 更改串流秘钥
+function changeStreamKey(val: string) {
+  room.info.streamKey = val;
 }
 </script>
 
