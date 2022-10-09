@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-06-06 14:48:33
+ * @LastEditTime: 2022-10-09 20:55:22
  */
 
 import type { LoginDTO, UserInfoDTO, UserRegisterDTO } from "#/user";
@@ -83,4 +83,18 @@ export async function getMyInfo(): Promise<UserInfoDTO> {
  */
 export async function logout(): Promise<boolean> {
   return await request.put("/user/logout");
+}
+
+/**
+ * 上传头像
+ * @param avatar 头像二进制文件
+ */
+export async function postAvatar(avatar: Blob): Promise<string> {
+  const form = new FormData();
+  form.append("file", avatar, "avatar.png");
+  return await request.post("/file/avatar", form, {
+    headers: {
+      "Content-Type": "application/form-data",
+    },
+  });
 }

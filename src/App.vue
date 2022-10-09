@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-10-04 10:22:18
+ * @LastEditTime: 2022-10-08 20:51:07
 -->
 <script setup lang="ts">
 import { RouterView, useRouter } from "vue-router";
@@ -111,7 +111,10 @@ afterLogin(() => {
         <template v-if="user.info?.userId">
           <div class="login-toolbar">
             <div class="user-avatar-action">
-              <a-avatar class="user-avatar">
+              <a-avatar
+                class="user-avatar"
+                @click="router.push('/member/information')"
+              >
                 <img alt="avatar" :src="user.info?.avatar" />
               </a-avatar>
 
