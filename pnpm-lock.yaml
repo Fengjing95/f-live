@@ -2,7 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@arco-design/web-vue': ^2.37.4
-  '@arco-plugins/vite-vue': ^1.3.5
+  '@arco-plugins/vite-vue': ^1.3.9
   '@arco-themes/vue-orange': ^0.0.1
   '@rushstack/eslint-patch': ^1.2.0
   '@types/jsdom': ^16.2.15
@@ -58,7 +58,7 @@ dependencies:
   xgplayer-flv: 2.5.1
 
 devDependencies:
-  '@arco-plugins/vite-vue': 1.3.5
+  '@arco-plugins/vite-vue': 1.3.9
   '@rushstack/eslint-patch': 1.2.0
   '@types/jsdom': 16.2.15
   '@types/nprogress': 0.2.0
@@ -106,8 +106,8 @@ packages:
       vue: 3.2.39
     dev: false
 
-  /@arco-plugins/vite-vue/1.3.5:
-    resolution: {integrity: sha512-N7qm9FkypzGOCNEmUOrfl4J9MwTRZRzzfPHnntkruaObZLiFaDWvw7PJsnMnJzHUGx5lwAL49/hcNmG7oDUw1A==}
+  /@arco-plugins/vite-vue/1.3.9:
+    resolution: {integrity: sha512-KJkkKjWHxzjrDFR6lX+TK5vlwDl/93mqz2ZkYmvp/qvflzs7xa1XQXc7CvoXCotNuZwF0MDi37pwGrtZ6CTYjg==}
     dependencies:
       '@babel/generator': 7.19.0
       '@babel/helper-module-imports': 7.18.6

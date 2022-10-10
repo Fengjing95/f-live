@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: 用户卡片
- * @LastEditTime: 2022-10-10 10:49:45
+ * @LastEditTime: 2022-10-10 22:34:05
 -->
 <template>
   <a-card :bordered="false">
@@ -127,28 +127,30 @@ const visible = ref(false);
 const userStore = useUserStore();
 
 // descriptions options
-const renderData = [
-  {
-    label: "昵称",
-    value: userStore.info?.nickname,
-  },
-  {
-    label: "注册时间",
-    value: utcToLocal(userStore.info.updateTime),
-  },
-  {
-    label: "用户名",
-    value: userStore.info?.username,
-  },
-  {
-    label: "用户状态",
-    value: userStore.info.freeze ? "冻结" : "正常",
-  },
-  {
-    label: "UID",
-    value: userStore.info.userId,
-  },
-] as DescData[];
+const renderData = computed(() => {
+  return [
+    {
+      label: "昵称",
+      value: userStore.info?.nickname,
+    },
+    {
+      label: "注册时间",
+      value: utcToLocal(userStore.info.updateTime),
+    },
+    {
+      label: "用户名",
+      value: userStore.info?.username,
+    },
+    {
+      label: "用户状态",
+      value: userStore.info.freeze ? "冻结" : "正常",
+    },
+    {
+      label: "UID",
+      value: userStore.info.userId,
+    },
+  ] as DescData[];
+});
 
 // 裁剪器组件 ref
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

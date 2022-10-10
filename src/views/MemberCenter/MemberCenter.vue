@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: 个人中心
- * @LastEditTime: 2022-10-02 17:59:28
+ * @LastEditTime: 2022-10-10 16:35:48
 -->
 <template>
   <div class="member_container">
@@ -84,7 +84,7 @@ const path = ref(route.matched[0].path);
     .arco-menu.arco-menu-collapsed {
       width: 48px;
       /* height: auto; */
-      min-height: calc(100vh -105px);
+      min-height: calc(100vh - 105px);
       padding-top: 24px;
       padding-bottom: 138px;
       border-radius: 22px;

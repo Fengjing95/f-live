@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: 用户信息
- * @LastEditTime: 2022-10-08 21:29:26
+ * @LastEditTime: 2022-10-10 21:50:57
 -->
 <template>
   <div class="container">
@@ -16,7 +16,7 @@
       <a-col :span="24">
         <a-tabs default-active-key="1" type="rounded">
           <a-tab-pane key="1" title="基本信息">
-            <BasicInformation />
+            <basic-information />
           </a-tab-pane>
           <a-tab-pane key="2" title="实名认证">
             <SecuritySettings />
@@ -32,6 +32,7 @@
 
 <script lang="ts" setup>
 import UserPanel from "./components/UserPanel.vue";
+import BasicInformation from "./components/BasicInformation.vue";
 </script>
 
 <style scoped lang="less">

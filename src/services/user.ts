@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-10-09 20:55:22
+ * @LastEditTime: 2022-10-10 22:12:50
  */
 
 import type { LoginDTO, UserInfoDTO, UserRegisterDTO } from "#/user";
@@ -97,4 +97,15 @@ export async function postAvatar(avatar: Blob): Promise<string> {
       "Content-Type": "application/form-data",
     },
   });
+}
+
+/**
+ * 更新用户基本信息
+ * @param user 用户信息
+ * @returns
+ */
+export async function submitUserInfo(
+  user: Partial<UserInfoDTO>
+): Promise<UserInfoDTO> {
+  return request.put("/user/myInfo", user);
 }
