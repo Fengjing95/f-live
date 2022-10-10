@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: 用户卡片
- * @LastEditTime: 2022-10-09 22:07:54
+ * @LastEditTime: 2022-10-10 10:49:45
 -->
 <template>
   <a-card :bordered="false">
@@ -55,15 +55,11 @@
           >
             {{ value }}
           </a-tag>
-          <span
-            v-else-if="data.label === 'UID'"
-            @click="copyUID"
-            :style="{ cursor: 'pointer' }"
-          >
+          <span v-else-if="data.label === 'UID'">
             {{ value }}
             &nbsp;
-            <icon-copy
-          /></span>
+            <icon-copy @click="copyUID" :style="{ cursor: 'pointer' }" />
+          </span>
           <span v-else>{{ value }}</span>
         </template>
       </a-descriptions>
@@ -155,6 +151,7 @@ const renderData = [
 ] as DescData[];
 
 // 裁剪器组件 ref
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const cropperRef = ref<any>(null);
 // 上传头像加载
 const loading = ref(false);
