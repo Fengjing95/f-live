@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-10-08 20:45:37
+ * @LastEditTime: 2022-10-13 19:42:34
  */
 import { createRouter, createWebHistory } from "vue-router";
 import { IconNotification, IconUser } from "@arco-design/web-vue/es/icon";
@@ -126,6 +126,12 @@ const router = createRouter({
           },
         },
       ],
+    },
+    {
+      path: "/validate/:code",
+      name: "Validate",
+      component: () => import("../views/ValidateEmail.vue"),
+      props: (route) => ({ code: route.params.code }),
     },
     {
       path: "/:pathMatch(.*)*",

@@ -3,11 +3,11 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-06-27 14:37:44
+ * @LastEditTime: 2022-10-13 10:52:05
  */
 import type { UserInfoDTO } from "#/user";
 import { getMyInfo, logout, refreshToken } from "@/services/user";
-import { getUserFromStorage, setUserInStorage } from "@/utils/storage";
+import { setUserInStorage } from "@/utils/storage";
 import { defineStore } from "pinia";
 // import { useGlobalStore } from "./global";
 
@@ -23,6 +23,9 @@ export const useUserStore = defineStore({
     },
     getUsername(state) {
       return state.info.username;
+    },
+    getPhoneAndHiddenPart(state) {
+      return state.info.phone?.replace(/^(\d{3})\d{4}(\d{4})$/, "$1****$2");
     },
   },
   actions: {
@@ -47,6 +50,9 @@ export const useUserStore = defineStore({
       const user = await getMyInfo();
       setUserInStorage(user);
       this.info = user;
+    },
+    mergeInfo(newInfo: Partial<UserInfoDTO>) {
+      Object.assign(this.info, newInfo);
     },
   },
 });

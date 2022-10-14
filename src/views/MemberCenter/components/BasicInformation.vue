@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: 用户基本信息修改表单
- * @LastEditTime: 2022-10-10 22:43:51
+ * @LastEditTime: 2022-10-13 10:52:42
 -->
 <template>
   <a-form
@@ -66,7 +66,7 @@ const formRef = ref<FormInstance>();
 // 更新用户基本信息
 async function updateInfo(values: Record<string, string>) {
   const newInfo = await submitUserInfo(values);
-  Object.assign(user.info, newInfo);
+  user.mergeInfo(newInfo);
 }
 
 // 重置

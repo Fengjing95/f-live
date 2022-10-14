@@ -3,10 +3,15 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-10-10 22:12:50
+ * @LastEditTime: 2022-10-13 22:55:09
  */
 
-import type { LoginDTO, UserInfoDTO, UserRegisterDTO } from "#/user";
+import type {
+  LoginDTO,
+  UpdatePhoneDTO,
+  UserInfoDTO,
+  UserRegisterDTO,
+} from "#/user";
 import { request } from "@/utils/request";
 
 /**
@@ -107,5 +112,52 @@ export async function postAvatar(avatar: Blob): Promise<string> {
 export async function submitUserInfo(
   user: Partial<UserInfoDTO>
 ): Promise<UserInfoDTO> {
-  return request.put("/user/myInfo", user);
+  return await request.put("/user/myInfo", user);
+}
+
+/**
+ * 更换绑定手机
+ * @param phone 旧手机号/新手机号/验证码
+ * @returns
+ */
+export async function updatePhone(phone: UpdatePhoneDTO): Promise<boolean> {
+  return await request.put("/user/security/phone", phone);
+}
+
+/**
+ * 更换邮箱绑定
+ * @param email email 地址
+ * @returns
+ */
+export async function updateEmail(email: string): Promise<boolean> {
+  return await request.put("/user/security/email", { email });
+}
+
+/**
+ * 修改密码
+ * @param oldPassword 旧密码
+ * @param password 新密码
+ * @returns
+ */
+export async function updatePassword(value: {
+  oldPassword: string;
+  password: string;
+}): Promise<boolean> {
+  return await request.put("/user/security/password", value);
+}
+
+/**
+ * 发送验证邮件
+ */
+export async function sendEmail(): Promise<boolean> {
+  return await request.get("/user/security/sendEmail");
+}
+
+/**
+ * 验证邮箱
+ * @param code 校验码
+ * @returns
+ */
+export async function validateEmail(code: string): Promise<boolean> {
+  return !!(await request.put(`/user/security/email/validate/${code}`));
 }
