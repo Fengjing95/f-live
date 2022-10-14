@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-09-21 11:28:39
+ * @LastEditTime: 2022-10-14 19:27:48
 -->
 <template>
   <a-form
@@ -248,36 +248,28 @@ let time = ref(0); // 倒计时
  * @param {*}
  * @return {*}
  */
-function sendCodeMessage() {
+async function sendCodeMessage() {
   if (time.value > 0 || sendDisabled.value)
     // 如果已经存在计时或者手机号格式不正确不再发送
     return;
-  time.value = 60;
-  sendMessage(registerForm.phone)
-    .then((code) => {
-      // FIXME 不应该展示 code
-      console.log(
-        `%ccode%c${code}`,
-        "background-color: #86de4f;color: #fff;padding: 3px 2px 3px 5px;border-radius: 5px 0 0 5px;",
-        "background-color: #000000;color: #fff;padding: 3px 5px 3px 2px;border-radius: 0 5px 5px 0;"
-      );
-    })
-    .then(() => {
-      // 立即刷新一下状态
-      send.value = `重新获取(${time.value}s)`;
-      time.value--;
-      let timer = setInterval(() => {
-        if (time.value === 0) {
-          // 倒计时结束回复状态
-          send.value = "获取验证码";
-          clearInterval(timer);
-        } else {
-          // 否则刷新状态
-          send.value = `重新获取(${time.value}s)`;
-          time.value--;
-        }
-      }, 1000);
-    });
+  const success = await sendMessage(registerForm.phone);
+  if (success) {
+    time.value = 60;
+    Message.success("已发送");
+    send.value = `重新获取(${time.value}s)`;
+    time.value--;
+    let timer = setInterval(() => {
+      if (time.value === 0) {
+        // 倒计时结束回复状态
+        send.value = "获取验证码";
+        clearInterval(timer);
+      } else {
+        // 否则刷新状态
+        send.value = `重新获取(${time.value}s)`;
+        time.value--;
+      }
+    }, 1000);
+  }
 }
 </script>
 

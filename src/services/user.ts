@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-10-13 22:55:09
+ * @LastEditTime: 2022-10-14 16:06:56
  */
 
 import type {
@@ -160,4 +160,13 @@ export async function sendEmail(): Promise<boolean> {
  */
 export async function validateEmail(code: string): Promise<boolean> {
   return !!(await request.put(`/user/security/email/validate/${code}`));
+}
+
+/**
+ * 发送换绑短信
+ * @param phone 手机号码
+ * @returns
+ */
+export async function sendMessageReBind(phone: string): Promise<boolean> {
+  return await request.get(`/user/security/sendMessage?phone=${phone}`);
 }
