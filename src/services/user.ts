@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-10-14 16:06:56
+ * @LastEditTime: 2022-10-17 17:52:53
  */
 
 import type {
@@ -57,9 +57,7 @@ export async function isUsernameExist(
  * @param {string} phone 亚发送验证码的手机号
  * @return {*}
  */
-export async function sendMessage(phone: string): Promise<string> {
-  // FIXME 这里为了节省成本直接将 code 作为响应返回,
-  // 正规流程应该由 server 调用SDK 像手机号发送验证码短信
+export async function sendMessage(phone: string): Promise<boolean> {
   return await request.get(`/user/passport/sendMessage?phone=${phone}`);
 }
 

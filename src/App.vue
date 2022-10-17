@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-10-08 20:51:07
+ * @LastEditTime: 2022-10-17 17:55:45
 -->
 <script setup lang="ts">
 import { RouterView, useRouter } from "vue-router";
@@ -44,7 +44,6 @@ function initNoticeWorker() {
         break;
 
       // 全部已读
-      //  TODO 触发已读的事件发送请求, 保存到本地, 共享事件
       case "readAll":
         notice.readAll();
         break;

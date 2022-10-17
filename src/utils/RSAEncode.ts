@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: RSA 加密
- * @LastEditTime: 2022-05-23 16:03:25
+ * @LastEditTime: 2022-10-17 17:54:41
  */
 
 import JSEncrypt from "jsencrypt";
@@ -17,7 +17,6 @@ import JSEncrypt from "jsencrypt";
 export function encodeByPublicKey(publicKey: string, target: string): string {
   const sign = new JSEncrypt();
   sign.setPublicKey(publicKey);
-  // TODO md5
   const encode = sign.encrypt(target);
   if (!encode) throw new Error("秘钥错误, 请联系管理员");
   return encode;
