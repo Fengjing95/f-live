@@ -3,12 +3,12 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-05-24 14:25:45
+ * @LastEditTime: 2022-10-14 19:27:48
 -->
 <template>
   <a-form
     :model="registerForm"
-    @submit="register"
+    @submit-success="register"
     :label-col-props="{ span: 2, offset: 0 }"
     :wrapper-col-props="{ span: 20 }"
   >
@@ -147,7 +147,6 @@ import {
   IconUserGroup,
 } from "@arco-design/web-vue/es/icon";
 import { Message } from "@arco-design/web-vue";
-import type { ValidatedError } from "@arco-design/web-vue";
 import {
   isUsernameExist,
   sendMessage,
@@ -157,6 +156,7 @@ import {
 import { useUserStore } from "@/stores/user";
 import { useGlobalStore } from "@/stores/global";
 import { encodeByPublicKey } from "@/utils/RSAEncode";
+import { getHashWithString } from "@/utils/md5";
 
 const loading = ref(false); // 注册按钮状态
 
@@ -204,7 +204,7 @@ function phoneValidate(value: string, cb: (s: string) => void) {
 function userExistRule(value: string, cb: (s: string) => void) {
   return new Promise((resolve) => {
     isUsernameExist(value).then((res) => {
-      if (res === "true") cb("用户名已存在");
+      if (res) cb("用户名已存在");
       resolve(true);
     });
   });
@@ -215,27 +215,21 @@ function userExistRule(value: string, cb: (s: string) => void) {
  * @param {*}
  * @return {*}
  */
-function register({
-  values,
-  errors,
-}: {
-  values: typeof registerForm;
-  errors: undefined | Record<string, ValidatedError>;
-}) {
-  if (errors) return;
+function register(values: Record<string, string>) {
   loading.value = true;
   let { username, nickname, phone, code, password } = values;
   getPublicKey(username)
     .then((key) => {
-      const encode = encodeByPublicKey(key, password);
+      const encode = encodeByPublicKey(key, getHashWithString(password));
       return { username, nickname, phone, code, password: encode };
     })
     .then(registerUser)
-    .then((token) => {
+    .then(async (token) => {
       if (token) {
         // 保存 token
         useUserStore().setToken(token);
-        Message.success("登录成功");
+        await useUserStore().getUserInfo();
+        Message.success("注册成功");
         // 关闭登录框
         useGlobalStore().overLogin();
       }
@@ -254,36 +248,28 @@ let time = ref(0); // 倒计时
  * @param {*}
  * @return {*}
  */
-function sendCodeMessage() {
+async function sendCodeMessage() {
   if (time.value > 0 || sendDisabled.value)
     // 如果已经存在计时或者手机号格式不正确不再发送
     return;
-  time.value = 60;
-  sendMessage(registerForm.phone)
-    .then((code) => {
-      // FIXME 不应该展示 code
-      console.log(
-        `%ccode%c${code}`,
-        "background-color: #86de4f;color: #fff;padding: 3px 2px 3px 5px;border-radius: 5px 0 0 5px;",
-        "background-color: #000000;color: #fff;padding: 3px 5px 3px 2px;border-radius: 0 5px 5px 0;"
-      );
-    })
-    .then(() => {
-      // 立即刷新一下状态
-      send.value = `重新获取(${time.value}s)`;
-      time.value--;
-      let timer = setInterval(() => {
-        if (time.value === 0) {
-          // 倒计时结束回复状态
-          send.value = "获取验证码";
-          clearInterval(timer);
-        } else {
-          // 否则刷新状态
-          send.value = `重新获取(${time.value}s)`;
-          time.value--;
-        }
-      }, 1000);
-    });
+  const success = await sendMessage(registerForm.phone);
+  if (success) {
+    time.value = 60;
+    Message.success("已发送");
+    send.value = `重新获取(${time.value}s)`;
+    time.value--;
+    let timer = setInterval(() => {
+      if (time.value === 0) {
+        // 倒计时结束回复状态
+        send.value = "获取验证码";
+        clearInterval(timer);
+      } else {
+        // 否则刷新状态
+        send.value = `重新获取(${time.value}s)`;
+        time.value--;
+      }
+    }, 1000);
+  }
 }
 </script>
 

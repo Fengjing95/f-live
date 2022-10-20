@@ -3,12 +3,12 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-05-23 16:02:30
+ * @LastEditTime: 2022-09-21 11:28:17
 -->
 <template>
   <a-form
     :model="loginForm"
-    @submit="login"
+    @submit-success="login"
     :label-col-props="{ span: 2, offset: 0 }"
     :wrapper-col-props="{ span: 20 }"
   >
@@ -51,9 +51,9 @@ import { IconUser, IconLock } from "@arco-design/web-vue/es/icon";
 import { getPublicKey, loginByPassword } from "@/services/user";
 import { useGlobalStore } from "@/stores/global";
 import { Message } from "@arco-design/web-vue";
-import type { ValidatedError } from "@arco-design/web-vue";
 import { useUserStore } from "@/stores/user";
 import { encodeByPublicKey } from "@/utils/RSAEncode";
+import { getHashWithString } from "@/utils/md5";
 
 const loading = ref(false);
 const loginForm = reactive({
@@ -66,26 +66,23 @@ const loginForm = reactive({
  * @param {*}
  * @return {*}
  */
-function login({
-  values,
-  errors,
-}: {
-  values: typeof loginForm;
-  errors: undefined | Record<string, ValidatedError>;
-}) {
-  if (errors) return;
+function login(values: Record<string, string>) {
   loading.value = true;
   // 加密登录
   getPublicKey(values.username)
     .then((key) => {
-      const password = encodeByPublicKey(key, values.password);
+      const password = encodeByPublicKey(
+        key,
+        getHashWithString(values.password)
+      );
       return { username: values.username, password };
     })
     .then(loginByPassword)
-    .then((token) => {
+    .then(async (token) => {
       if (token) {
         // 保存 token
         useUserStore().setToken(token);
+        await useUserStore().getUserInfo();
         Message.success("登录成功");
         // 关闭登录框
         useGlobalStore().overLogin();

@@ -1,0 +1,149 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "7865396",
+      "name": "饼干",
+      "font_class": "food-cookie",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "7865397",
+      "name": "碧根果",
+      "font_class": "food-pecan",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "7865398",
+      "name": "牛油果",
+      "font_class": "food-avocado",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "7865399",
+      "name": "布丁",
+      "font_class": "food-pudding",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "7865400",
+      "name": "草莓",
+      "font_class": "food-strawberry",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
+      "icon_id": "7865401",
+      "name": "甜甜圈",
+      "font_class": "food-doughnut",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "7865402",
+      "name": "薯片",
+      "font_class": "food-chips",
+      "unicode": "e607",
+      "unicode_decimal": 58887
+    },
+    {
+      "icon_id": "7865403",
+      "name": "爆米花",
+      "font_class": "food-popcorn",
+      "unicode": "e608",
+      "unicode_decimal": 58888
+    },
+    {
+      "icon_id": "7865404",
+      "name": "面包",
+      "font_class": "food-bread",
+      "unicode": "e609",
+      "unicode_decimal": 58889
+    },
+    {
+      "icon_id": "7865405",
+      "name": "披萨",
+      "font_class": "food-pizza",
+      "unicode": "e60a",
+      "unicode_decimal": 58890
+    },
+    {
+      "icon_id": "7865406",
+      "name": "热狗",
+      "font_class": "food-hotdog",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
+      "icon_id": "7865407",
+      "name": "塔可",
+      "font_class": "food-taco",
+      "unicode": "e60c",
+      "unicode_decimal": 58892
+    },
+    {
+      "icon_id": "7865408",
+      "name": "棒冰",
+      "font_class": "food-popsicle",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "7865409",
+      "name": "蛋黄酥",
+      "font_class": "food-eggyolkcake",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
+      "icon_id": "7865410",
+      "name": "寿司",
+      "font_class": "food-sushi",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    },
+    {
+      "icon_id": "7865411",
+      "name": "蛋糕",
+      "font_class": "food-cake",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    },
+    {
+      "icon_id": "7865412",
+      "name": "马卡龙",
+      "font_class": "food-macaron",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    },
+    {
+      "icon_id": "7865413",
+      "name": "腰果",
+      "font_class": "food-cashew",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "7865414",
+      "name": "麻薯",
+      "font_class": "food-mochi",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "7865439",
+      "name": "开心果",
+      "font_class": "food-pistachio",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    }
+  ]
+}

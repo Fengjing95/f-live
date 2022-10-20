@@ -1,0 +1,359 @@
+{
+  "id": "",
+  "name": "",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "1840111",
+      "name": "中毒",
+      "font_class": "-astonished",
+      "unicode": "e6e8",
+      "unicode_decimal": 59112
+    },
+    {
+      "icon_id": "1840112",
+      "name": "天使",
+      "font_class": "-angel",
+      "unicode": "e6e9",
+      "unicode_decimal": 59113
+    },
+    {
+      "icon_id": "1840113",
+      "name": "中毒-1",
+      "font_class": "-astonished-",
+      "unicode": "e6ea",
+      "unicode_decimal": 59114
+    },
+    {
+      "icon_id": "1840114",
+      "name": "酷",
+      "font_class": "-cool",
+      "unicode": "e6eb",
+      "unicode_decimal": 59115
+    },
+    {
+      "icon_id": "1840115",
+      "name": "迷茫",
+      "font_class": "-confused",
+      "unicode": "e6ec",
+      "unicode_decimal": 59116
+    },
+    {
+      "icon_id": "1840116",
+      "name": "生气",
+      "font_class": "-angry",
+      "unicode": "e6ed",
+      "unicode_decimal": 59117
+    },
+    {
+      "icon_id": "1840117",
+      "name": "酷-1",
+      "font_class": "-cool-",
+      "unicode": "e6ee",
+      "unicode_decimal": 59118
+    },
+    {
+      "icon_id": "1840118",
+      "name": "头晕",
+      "font_class": "-dizzy",
+      "unicode": "e6ef",
+      "unicode_decimal": 59119
+    },
+    {
+      "icon_id": "1840119",
+      "name": "哭",
+      "font_class": "-cry",
+      "unicode": "e6f0",
+      "unicode_decimal": 59120
+    },
+    {
+      "icon_id": "1840120",
+      "name": "哭-1",
+      "font_class": "-cry-",
+      "unicode": "e6f1",
+      "unicode_decimal": 59121
+    },
+    {
+      "icon_id": "1840121",
+      "name": "面无表情",
+      "font_class": "-expressionless",
+      "unicode": "e6f2",
+      "unicode_decimal": 59122
+    },
+    {
+      "icon_id": "1840122",
+      "name": "魔鬼",
+      "font_class": "-devil",
+      "unicode": "e6f3",
+      "unicode_decimal": 59123
+    },
+    {
+      "icon_id": "1840123",
+      "name": "懵B",
+      "font_class": "-flushed",
+      "unicode": "e6f4",
+      "unicode_decimal": 59124
+    },
+    {
+      "icon_id": "1840124",
+      "name": "开心-1",
+      "font_class": "-happy-",
+      "unicode": "e6f5",
+      "unicode_decimal": 59125
+    },
+    {
+      "icon_id": "1840125",
+      "name": "开心-2",
+      "font_class": "-happy-1",
+      "unicode": "e6f6",
+      "unicode_decimal": 59126
+    },
+    {
+      "icon_id": "1840126",
+      "name": "开心",
+      "font_class": "-happy",
+      "unicode": "e6f7",
+      "unicode_decimal": 59127
+    },
+    {
+      "icon_id": "1840127",
+      "name": "受伤",
+      "font_class": "-injury",
+      "unicode": "e6f8",
+      "unicode_decimal": 59128
+    },
+    {
+      "icon_id": "1840128",
+      "name": "笑哭",
+      "font_class": "-joy",
+      "unicode": "e6f9",
+      "unicode_decimal": 59129
+    },
+    {
+      "icon_id": "1840129",
+      "name": "热恋",
+      "font_class": "-in-love",
+      "unicode": "e6fa",
+      "unicode_decimal": 59130
+    },
+    {
+      "icon_id": "1840130",
+      "name": "亲吻",
+      "font_class": "-kiss",
+      "unicode": "e6fb",
+      "unicode_decimal": 59131
+    },
+    {
+      "icon_id": "1840131",
+      "name": "亲吻-2",
+      "font_class": "-kiss-",
+      "unicode": "e6fc",
+      "unicode_decimal": 59132
+    },
+    {
+      "icon_id": "1840132",
+      "name": "亲吻-1",
+      "font_class": "-kiss-1",
+      "unicode": "e6fd",
+      "unicode_decimal": 59133
+    },
+    {
+      "icon_id": "1840133",
+      "name": "口罩",
+      "font_class": "-mask",
+      "unicode": "e6fe",
+      "unicode_decimal": 59134
+    },
+    {
+      "icon_id": "1840134",
+      "name": "面无表情-1",
+      "font_class": "-neutral",
+      "unicode": "e6ff",
+      "unicode_decimal": 59135
+    },
+    {
+      "icon_id": "1840135",
+      "name": "静音",
+      "font_class": "-mute",
+      "unicode": "e700",
+      "unicode_decimal": 59136
+    },
+    {
+      "icon_id": "1840136",
+      "name": "难过",
+      "font_class": "-sad",
+      "unicode": "e701",
+      "unicode_decimal": 59137
+    },
+    {
+      "icon_id": "1840137",
+      "name": "难过-1",
+      "font_class": "-sad-",
+      "unicode": "e702",
+      "unicode_decimal": 59138
+    },
+    {
+      "icon_id": "1840138",
+      "name": "害怕",
+      "font_class": "-scared",
+      "unicode": "e703",
+      "unicode_decimal": 59139
+    },
+    {
+      "icon_id": "1840139",
+      "name": "闭嘴",
+      "font_class": "-secret",
+      "unicode": "e704",
+      "unicode_decimal": 59140
+    },
+    {
+      "icon_id": "1840140",
+      "name": "害怕-1",
+      "font_class": "-scared-",
+      "unicode": "e705",
+      "unicode_decimal": 59141
+    },
+    {
+      "icon_id": "1840141",
+      "name": "震惊-1",
+      "font_class": "-shocked",
+      "unicode": "e706",
+      "unicode_decimal": 59142
+    },
+    {
+      "icon_id": "1840142",
+      "name": "生病",
+      "font_class": "-sick",
+      "unicode": "e707",
+      "unicode_decimal": 59143
+    },
+    {
+      "icon_id": "1840143",
+      "name": "笑",
+      "font_class": "-smile",
+      "unicode": "e708",
+      "unicode_decimal": 59144
+    },
+    {
+      "icon_id": "1840144",
+      "name": "笑-1",
+      "font_class": "-smile-",
+      "unicode": "e709",
+      "unicode_decimal": 59145
+    },
+    {
+      "icon_id": "1840145",
+      "name": "睡觉",
+      "font_class": "-sleeping",
+      "unicode": "e70a",
+      "unicode_decimal": 59146
+    },
+    {
+      "icon_id": "1840146",
+      "name": "微笑-1",
+      "font_class": "-smiling-",
+      "unicode": "e70b",
+      "unicode_decimal": 59147
+    },
+    {
+      "icon_id": "1840147",
+      "name": "眼红",
+      "font_class": "-smiling",
+      "unicode": "e70c",
+      "unicode_decimal": 59148
+    },
+    {
+      "icon_id": "1840148",
+      "name": "流汗",
+      "font_class": "-sweat",
+      "unicode": "e70d",
+      "unicode_decimal": 59149
+    },
+    {
+      "icon_id": "1840149",
+      "name": "震惊",
+      "font_class": "-surprised",
+      "unicode": "e70e",
+      "unicode_decimal": 59150
+    },
+    {
+      "icon_id": "1840150",
+      "name": "奸笑",
+      "font_class": "-smirking",
+      "unicode": "e70f",
+      "unicode_decimal": 59151
+    },
+    {
+      "icon_id": "1840151",
+      "name": "思考",
+      "font_class": "-thinking",
+      "unicode": "e710",
+      "unicode_decimal": 59152
+    },
+    {
+      "icon_id": "1840152",
+      "name": "疲惫",
+      "font_class": "-tired",
+      "unicode": "e711",
+      "unicode_decimal": 59153
+    },
+    {
+      "icon_id": "1840153",
+      "name": "吐舌",
+      "font_class": "-tongue",
+      "unicode": "e712",
+      "unicode_decimal": 59154
+    },
+    {
+      "icon_id": "1840154",
+      "name": "吐舌-1",
+      "font_class": "-tongue-",
+      "unicode": "e713",
+      "unicode_decimal": 59155
+    },
+    {
+      "icon_id": "1840155",
+      "name": "吐舌-2",
+      "font_class": "-tongue-1",
+      "unicode": "e714",
+      "unicode_decimal": 59156
+    },
+    {
+      "icon_id": "1840156",
+      "name": "斜眼",
+      "font_class": "-unamused",
+      "unicode": "e715",
+      "unicode_decimal": 59157
+    },
+    {
+      "icon_id": "1840157",
+      "name": "眨眼",
+      "font_class": "-wink",
+      "unicode": "e716",
+      "unicode_decimal": 59158
+    },
+    {
+      "icon_id": "1840158",
+      "name": "呕吐",
+      "font_class": "-vomiting",
+      "unicode": "e717",
+      "unicode_decimal": 59159
+    },
+    {
+      "icon_id": "1840159",
+      "name": "僵尸",
+      "font_class": "-zombie",
+      "unicode": "e718",
+      "unicode_decimal": 59160
+    },
+    {
+      "icon_id": "1840160",
+      "name": "呕吐-1",
+      "font_class": "-vomiting-",
+      "unicode": "e719",
+      "unicode_decimal": 59161
+    }
+  ]
+}

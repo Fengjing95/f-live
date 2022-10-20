@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-05-23 09:22:59
+ * @LastEditTime: 2022-06-07 11:23:56
 -->
 <template>
   <!-- 登录框 -->
@@ -43,7 +43,8 @@
 </template>
 
 <script setup lang="ts">
-// import LoginForm from "./LoginForm.vue";
+import LoginForm from "./LoginForm.vue";
+import RegisterForm from "./RegisterForm.vue";
 import { ref } from "vue";
 import { useGlobalStore } from "../../stores/global";
 const global = useGlobalStore();

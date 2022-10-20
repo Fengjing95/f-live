@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: http fetch封装
- * @LastEditTime: 2022-05-25 16:12:40
+ * @LastEditTime: 2022-10-20 14:40:08
  */
 import axios from "axios";
 import { Message } from "@arco-design/web-vue";
@@ -46,6 +46,8 @@ request.interceptors.response.use(
             return useUserStore()
               .refreshToken()
               .then((token) => {
+                // TODO 返回值如何处理
+                if (!token) return null;
                 // 刷新成功之后进行重发
                 requestQueue.forEach((cb) => cb(token));
                 config.headers &&
@@ -67,16 +69,22 @@ request.interceptors.response.use(
             });
           }
         default:
-          Message.error(response.msg);
+          Message.warning(response.msg);
           return null;
       }
     }
   },
   (error) => {
-    NProgress.done();
-    // TODO 根据不同的http 状态码处理
-    Message.error(error.response.data.msg);
+    if (error.response.status === 401) {
+      // TODO 身份过期清理所有的用户信息
+      useUserStore().$reset();
+      Message.warning("登陆后体验更多功能");
+    } else {
+      // TODO 根据不同的http 状态码处理
+      Message.error(error.response.data.msg);
+    }
 
+    NProgress.done();
     return null;
   }
 );
