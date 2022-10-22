@@ -1,6 +1,6 @@
 @font-face {
   font-family: "iconfont"; /* Project id  */
-  src: url('iconfont.ttf?t=1665194853476') format('truetype');
+  src: url('iconfont.ttf?t=1666342446551') format('truetype');
 }
 
 .iconfont {
@@ -15,7 +15,75 @@
   content: "\f02d9";
 }
 
+.icon-yinliang:before {
+  content: "\e6c4";
+}
+
+.icon-liwu:before {
+  content: "\e6e0";
+}
+
+.icon-dianying:before {
+  content: "\e6ee";
+}
+
+.icon-tupian:before {
+  content: "\e6f5";
+}
+
+.icon-fujian:before {
+  content: "\e6f6";
+}
+
+.icon-luxiangji:before {
+  content: "\e6fa";
+}
+
+.icon-shenpi:before {
+  content: "\e6ff";
+}
+
+.icon-bukejian:before {
+  content: "\e711";
+}
+
+.icon-kejian:before {
+  content: "\e73c";
+}
+
+.icon-luzhi:before {
+  content: "\e741";
+}
+
 .icon-maikefeng:before {
+  content: "\e742";
+}
+
+.icon-pingmugongxiang:before {
+  content: "\e746";
+}
+
+.icon-qianbao:before {
+  content: "\e747";
+}
+
+.icon-shiwu-maikefeng:before {
+  content: "\e753";
+}
+
+.icon-xiangji:before {
+  content: "\e763";
+}
+
+.icon-yuyin:before {
+  content: "\e76b";
+}
+
+.icon-zhuye:before {
+  content: "\e76e";
+}
+
+.icon-maikefeng1:before {
   content: "\e60f";
 }
 

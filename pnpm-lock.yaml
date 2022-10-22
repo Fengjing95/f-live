@@ -22,6 +22,7 @@ specifiers:
   jsencrypt: ^3.2.1
   less: ^4.1.3
   moment: ^2.29.4
+  multistreamsmixer: ^1.2.2
   nprogress: ^0.2.0
   pinia: ^2.0.22
   prettier: ^2.7.1
@@ -35,8 +36,9 @@ specifiers:
   vue-cropper: ^1.0.5
   vue-router: ^4.1.5
   vue-tsc: ^0.34.17
+  vue3-drag-resize: ^2.0.5
   xgplayer: ^2.32.0
-  xgplayer-flv: ^2.5.1
+  xgplayer-flv.js: ^2.3.0
 
 dependencies:
   '@arco-design/web-vue': 2.37.4_vue@3.2.39
@@ -47,6 +49,7 @@ dependencies:
   copy-to-clipboard: 3.3.2
   jsencrypt: 3.2.1
   moment: 2.29.4
+  multistreamsmixer: 1.2.2
   nprogress: 0.2.0
   pinia: 2.0.22_57pya53vsynelzcr3lxv2uzvla
   socket.io-client: 4.5.2
@@ -54,8 +57,9 @@ dependencies:
   vue: 3.2.39
   vue-cropper: 1.0.5
   vue-router: 4.1.5_vue@3.2.39
+  vue3-drag-resize: 2.0.5
   xgplayer: 2.32.0
-  xgplayer-flv: 2.5.1
+  xgplayer-flv.js: 2.3.0
 
 devDependencies:
   '@arco-plugins/vite-vue': 1.3.9
@@ -1057,7 +1061,6 @@ packages:
 
   /balanced-match/1.0.2:
     resolution: {integrity: sha512-3oSeUO0TMV67hN1AmbXsK4yaqU7tjiHlbxRDZOpH0KW9+CeX4bRAaX0Anxt0tx2MrpRpWwQaPwIlISEJhYU5Pw==}
-    dev: true
 
   /binary-extensions/2.2.0:
     resolution: {integrity: sha512-jDctJ/IVQbZoJykoeHbhXpOlNBqGNcwXJKJog42E5HDPUwQTSdjCHdihjj0DlnheQ7blbT6dHOafNAiS8ooQKA==}
@@ -1073,7 +1076,6 @@ packages:
     dependencies:
       balanced-match: 1.0.2
       concat-map: 0.0.1
-    dev: true
 
   /brace-expansion/2.0.1:
     resolution: {integrity: sha512-XnAIvQ8eM+kC6aULx6wuQiwVsnzsi9d3WxzV3FpWTGA19F621kwdbsAcFKXgKUHZWsy+mY6iL1sHTxWEFCytDA==}
@@ -1193,12 +1195,6 @@ packages:
 
   /concat-map/0.0.1:
     resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
-    dev: true
-
-  /concat-typed-array/1.0.2:
-    resolution: {integrity: sha512-aC878bxeWSlrY6h60cCDwBUXpKwovZrB7+C4+VHNO1CIXW2gBLxbQ757jWtOXUscLGgYI8R84N6uy9fTJPe+0g==}
-    engines: {node: '>=0.10.0'}
-    dev: false
 
   /copy-anything/2.0.6:
     resolution: {integrity: sha512-1j20GZTsvKNkc4BY3NpMOM8tt///wY3FpIzozTOFO2ffuZcV61nojHXVKIy3WM+7ADCy5FVhdZYHYDdgTU0yJw==}
@@ -1395,6 +1391,10 @@ packages:
       d: 1.0.1
       es5-ext: 0.10.62
       es6-symbol: 3.1.3
+    dev: false
+
+  /es6-promise/4.2.8:
+    resolution: {integrity: sha512-HJDGx5daxeIvxdBxvG2cb9g4tEvwIk3i8+nhX0yGrYmZUzbkdg8QbDevheDB8gd0//uPj4c1EQua8Q+MViT0/w==}
     dev: false
 
   /es6-symbol/3.1.3:
@@ -1931,7 +1931,6 @@ packages:
 
   /fs.realpath/1.0.0:
     resolution: {integrity: sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==}
-    dev: true
 
   /fsevents/2.3.2:
     resolution: {integrity: sha512-xiqMQR4xAeHTuB9uWm+fFRcIOgKBMiOBP+eXiyT7jsgVCq1bkVygt00oASowB7EdtpOHaaPgKt812P9ab+DDKA==}
@@ -1987,7 +1986,6 @@ packages:
       minimatch: 3.1.2
       once: 1.4.0
       path-is-absolute: 1.0.1
-    dev: true
 
   /globals/11.12.0:
     resolution: {integrity: sha512-WOBp/EEGUiIsJSp7wcv/y6MO+lV9UoncWqxuFfm8eBwzWNgyfBd6Gz+IeKQ9jCmyhoH99g15M3T+QaVHFjizVA==}
@@ -2117,11 +2115,9 @@ packages:
     dependencies:
       once: 1.4.0
       wrappy: 1.0.2
-    dev: true
 
   /inherits/2.0.4:
     resolution: {integrity: sha512-k/vGaX4/Yla3WzyMCvTQOXYeIHvqOKtnqBduzTHpzpQZzAskKMhZ2K+EnBiSM9zGSoIFeMpXKxa4dYeZIQqewQ==}
-    dev: true
 
   /is-arrayish/0.3.2:
     resolution: {integrity: sha512-eVRqCvVlZbuw3GrM63ovNSNAeA1K16kaR/LRY/92w0zxQ5/1YzwblUX652i4Xs9RwAGjW9d9y6X88t8OaAJfWQ==}
@@ -2423,7 +2419,6 @@ packages:
     resolution: {integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==}
     dependencies:
       brace-expansion: 1.1.11
-    dev: true
 
   /minimatch/5.1.0:
     resolution: {integrity: sha512-9TPBGGak4nHfGZsPBohm9AWg6NoT7QTCehS3BIJABslyZbzxfV78QM2Y6+i741OPZIafFAaiiEMh5OyIrJPgtg==}
@@ -2443,6 +2438,10 @@ packages:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
     dev: true
     optional: true
+
+  /multistreamsmixer/1.2.2:
+    resolution: {integrity: sha512-5UGMODV/vDFLs8CaYEgFgo2sg+kI6hzXy4e02C8nvqfp7hfCikzAC65p+nNPVRqvBhtMoA2HwAz6qN8iMvoaoA==}
+    dev: false
 
   /namespace-emitter/2.0.1:
     resolution: {integrity: sha512-N/sMKHniSDJBjfrkbS/tpkPj4RAbvW3mr8UAzvlMHyun93XEm83IAvhWtJVHo+RHn/oO8Job5YN4b+wRjSVp5g==}
@@ -2502,7 +2501,6 @@ packages:
     resolution: {integrity: sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==}
     dependencies:
       wrappy: 1.0.2
-    dev: true
 
   /optionator/0.8.3:
     resolution: {integrity: sha512-+IW9pACdk3XWmmTXG8m3upGUJst5XRGzxMRjXzAuJ1XnIFNvfhjjIuYkDvysnPQ7qzqVzLt78BCruntqRhWQbA==}
@@ -2566,7 +2564,6 @@ packages:
   /path-is-absolute/1.0.1:
     resolution: {integrity: sha512-AVbw3UJ2e9bq64vSaS9Am0fje1Pa8pbGqTTsmXfaIiMpnr5DlDhfJOuLj9Sf95ZPVDAUerDfEk88MPmPe7UCQg==}
     engines: {node: '>=0.10.0'}
-    dev: true
 
   /path-key/3.1.1:
     resolution: {integrity: sha512-ojmeN0qd+y0jszEtoY48r0Peq5dwMEkIlCOu6Q5f41lfkswXuKtYrhgoTpLnyIcHm24Uhqx+5Tqm2InSwLhE6Q==}
@@ -3241,6 +3238,10 @@ packages:
       '@vue/server-renderer': 3.2.39_vue@3.2.39
       '@vue/shared': 3.2.39
 
+  /vue3-drag-resize/2.0.5:
+    resolution: {integrity: sha512-7ein6vCC9LN6fsO3o9mYgmoldU9c/O2oyw9U5cqAJP21Mj2yQ8OGNPzEZfen6QltgLMfAOXv4iPIdE0EXFezGA==}
+    dev: false
+
   /w3c-hr-time/1.0.2:
     resolution: {integrity: sha512-z8P5DvDNjKDoFIHK7q8r8lackT6l+jo/Ye3HOle7l9nICP9lf1Ci25fy9vHd0JOWewkIFzXIEig3TdKT7JQ5fQ==}
     dependencies:
@@ -3267,6 +3268,10 @@ packages:
   /webpack-virtual-modules/0.4.4:
     resolution: {integrity: sha512-h9atBP/bsZohWpHnr+2sic8Iecb60GxftXsWNLLLSqewgIsGzByd2gcIID4nXcG+3tNe4GQG3dLcff3kXupdRA==}
     dev: true
+
+  /webworkify/1.5.0:
+    resolution: {integrity: sha512-AMcUeyXAhbACL8S2hqqdqOLqvJ8ylmIbNwUIqQujRSouf4+eUFaXbG6F1Rbu+srlJMmxQWsiU7mOJi0nMBfM1g==}
+    dev: false
 
   /whatwg-encoding/2.0.0:
     resolution: {integrity: sha512-p41ogyeMUrw3jWclHWTQg1k05DSVXPLcVxRTYsXUk+ZooOCZLcoYgPZ/HL/D/N+uQPOtcp1me1WhBEaX02mhWg==}
@@ -3315,7 +3320,6 @@ packages:
 
   /wrappy/1.0.2:
     resolution: {integrity: sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==}
-    dev: true
 
   /ws/8.2.3:
     resolution: {integrity: sha512-wBuoj1BDpC6ZQ1B7DWQBYVLphPWkm8i9Y0/3YdHjHKHiohOJ1ws+3OccDWtH+PoC9DZD5WOTrJvNbWvjS6JWaA==}
@@ -3343,56 +3347,12 @@ packages:
         optional: true
     dev: true
 
-  /xgplayer-flv-live/2.5.1:
-    resolution: {integrity: sha512-yxbVG4+NNzcB6llTRWl7zjclu0QM+snMEORIxp6oU7FRI+GJZ57YCJT+RiYfrR91s7sShxlWobYzDD4+OMWegg==}
+  /xgplayer-flv.js/2.3.0:
+    resolution: {integrity: sha512-5ZC1J3EJSnQgSxYqJUc+DtjHysFQCfC5iN93KCUGg4w2laK8Hm6AcHzkuwUULc97hV/E1D0s3q+y/TPe5fxUaQ==}
     dependencies:
-      xgplayer-helper-codec: 2.5.1
-      xgplayer-helper-models: 2.5.1
-      xgplayer-helper-transmuxers: 2.5.1
-      xgplayer-helper-utils: 2.5.1
-    dev: false
-
-  /xgplayer-flv-vod/2.5.1:
-    resolution: {integrity: sha512-hCy3jo2onQoY5Jp6i4NMmVgBl+9Esw6+bT7Q23NucMrH7vnPnd3uqRQGSPd9Z85eVAg+FwYcrtfpMvL4S2vqug==}
-    dependencies:
-      xgplayer-helper-codec: 2.5.1
-      xgplayer-helper-models: 2.5.1
-      xgplayer-helper-transmuxers: 2.5.1
-      xgplayer-helper-utils: 2.5.1
-    dev: false
-
-  /xgplayer-flv/2.5.1:
-    resolution: {integrity: sha512-pF9wrDiTb6Z0yW0DOZPG+gosD4Cc7CKTLuZs9+NmzfQkyvIxcqUIsOnCUiTJzAyX6lR2gdQUUaXziJeP2rXSPA==}
-    dependencies:
-      xgplayer-flv-live: 2.5.1
-      xgplayer-flv-vod: 2.5.1
-    dev: false
-
-  /xgplayer-helper-codec/2.5.1:
-    resolution: {integrity: sha512-lAT2eRuZiWXoYH2vl7p8F7bfdl5LprHZv3CfGRuxpdpuy59nf965N35hBWDrO44qoJfv3hBxMFsrgN/Fw+AN+w==}
-    dependencies:
-      xgplayer-helper-utils: 2.5.1
-    dev: false
-
-  /xgplayer-helper-models/2.5.1:
-    resolution: {integrity: sha512-cgGWXhhmnGw//m9f3f1mUISY6npmuljmiI/vmP8H7X1OftdmpA3aTRiCKc+mPBdWi/V3ijS5O+1CYr25K+cVLg==}
-    dev: false
-
-  /xgplayer-helper-transmuxers/2.5.1:
-    resolution: {integrity: sha512-7ZhLlvPbuwOmwFRjHNA8y4oskfza9kKnrOWlsc45/j4KyzsqGgka8/QwCmPOKH025QN7zUjyfJ+sTceIgMN7Mg==}
-    dependencies:
-      concat-typed-array: 1.0.2
-      eventemitter3: 4.0.7
-      xgplayer-helper-codec: 2.5.1
-      xgplayer-helper-models: 2.5.1
-      xgplayer-helper-utils: 2.5.1
-    dev: false
-
-  /xgplayer-helper-utils/2.5.1:
-    resolution: {integrity: sha512-Dv49YaSxXQy4Az3XQHVRcQGT9d+ecgj4d8SIW+umY//NO6f2SdlyRpdiaDBJS0yvjqdUAslqTVMUAiZC2zi12Q==}
-    dependencies:
-      eventemitter3: 4.0.7
-      xgplayer-helper-models: 2.5.1
+      es6-promise: 4.2.8
+      glob: 7.2.3
+      webworkify: 1.5.0
     dev: false
 
   /xgplayer-subtitles/1.0.22:

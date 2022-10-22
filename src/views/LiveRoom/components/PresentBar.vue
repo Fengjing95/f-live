@@ -3,10 +3,10 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: 礼物面板
- * @LastEditTime: 2022-10-08 17:08:29
+ * @LastEditTime: 2022-10-21 14:58:14
 -->
 <template>
-  <div></div>
+  <div>present</div>
 </template>
 
 <script setup lang="ts"></script>

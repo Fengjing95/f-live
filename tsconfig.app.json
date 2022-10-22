@@ -8,7 +8,8 @@
     "typings/**/*",
   ],
   "exclude": [
-    "src/**/__tests__/*"
+    "src/**/__tests__/*",
+    "src/utils/MultiStreamMixer.ts"
   ],
   "compilerOptions": {
     "composite": true,

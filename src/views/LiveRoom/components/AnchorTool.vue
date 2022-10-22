@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: 主播面板
- * @LastEditTime: 2022-10-08 17:23:55
+ * @LastEditTime: 2022-10-21 14:30:32
 -->
 <template>
   <!-- 主播工具面板 -->
@@ -32,6 +32,25 @@
         />
         <br />
         推流码
+      </a-col>
+
+      <a-col :span="2" v-if="!props.isWebLive">
+        <icon-customer-service
+          :style="{ cursor: 'pointer', position: 'relative', top: 15 }"
+          :size="32"
+          @click="handleWebLive(true)"
+        />
+        <br />
+        网页推流
+      </a-col>
+      <a-col :span="2" v-else>
+        <icon-desktop
+          :style="{ cursor: 'pointer', position: 'relative', top: 15 }"
+          :size="32"
+          @click="handleWebLive(false)"
+        />
+        <br />
+        观众视角
       </a-col>
     </a-row>
   </div>
@@ -65,6 +84,7 @@
 <script setup lang="ts">
 import { fetchSecret, startLiving, stopLiving } from "@/services/anchor";
 import { Message } from "@arco-design/web-vue";
+import { IconCustomerService, IconDesktop } from "@arco-design/web-vue/es/icon";
 import { CommonIconFont } from "@/utils/iconfontAdapter";
 import { reactive, ref } from "vue";
 import moment from "moment";
@@ -72,12 +92,16 @@ import copy from "copy-to-clipboard";
 
 const props = defineProps<{
   isLive: boolean;
+  isWebLive: boolean;
 }>();
 
 const emit = defineEmits<{
   (e: "setLive", val: string | number | boolean): void;
   (e: "setLastLiveTime", val: string): void;
   (e: "setStreamKey", val: string): void;
+  (e: "setWebLive", val: boolean): void;
+  (e: "init"): void;
+  (e: "destroy"): void;
 }>();
 
 // 推流相关
@@ -162,6 +186,15 @@ function handleCopySecret() {
     Message.success("已复制到剪贴板");
   } else {
     Message.error("请重试");
+  }
+}
+
+// 网页直播
+function handleWebLive(status: boolean) {
+  if (props.isLive) {
+    emit("setWebLive", status);
+  } else {
+    Message.warning("未开播不能进行网页直播");
   }
 }
 </script>

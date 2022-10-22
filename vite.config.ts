@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-10-20 14:40:10
+ * @LastEditTime: 2022-10-22 16:55:16
  */
 import { fileURLToPath, URL } from "url";
 import Components from "unplugin-vue-components/vite";
@@ -48,7 +48,7 @@ export default defineConfig({
         // ws: true,
       },
       "/srs": {
-        target: "http://127.0.0.1:1985",
+        target: "https://srs.easyremember.cn",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/srs/, "/rtc/v1"),
       },

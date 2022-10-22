@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-10-08 16:37:41
+ * @LastEditTime: 2022-10-21 23:43:16
 -->
 <template>
   <div class="room-anchor-info">
@@ -42,7 +42,7 @@
       {{ props.room.info?.anchor?.description || "暂无简介" }}
 
       <div>
-        <common-icon-font type="icon-maikefeng" />
+        <common-icon-font type="icon-maikefeng1" />
         {{ props.room.info.anchor?.nickname }}
         <span
           class="room-classification"

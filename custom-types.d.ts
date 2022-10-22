@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: 自定义类型(wangEditor)
- * @LastEditTime: 2022-10-06 16:46:33
+ * @LastEditTime: 2022-10-20 19:56:26
  */
 import { SlateDescendant } from "@wangeditor/editor";
 
@@ -20,4 +20,7 @@ declare module "@wangeditor/editor" {
   }
 }
 
-declare module "xgplayer-flv";
+// declare module "xgplayer-flv";
+// declare module "vue3-drag-resize";
+
+// declare module "multistreamsmixer";

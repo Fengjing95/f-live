@@ -3,15 +3,19 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-10-08 17:41:08
+ * @LastEditTime: 2022-10-22 19:56:30
 -->
 <template>
   <anchor-tool
     v-if="isAnchor"
     :isLive="room.info.isLiving"
+    :isWebLive="isWebLive"
     @setLive="changeLiveStatus"
     @setLastLiveTime="changeLastLiveTime"
     @setStreamKey="changeStreamKey"
+    @setWebLive="changeWebLive"
+    @init="initPlayer"
+    @destroy="playerRef?.destroy()"
   />
 
   <div class="room-container">
@@ -19,9 +23,76 @@
     <div class="room-left">
       <title-bar :room="room" :follow="follow" :unFollow="unFollow" />
       <!-- 根据开播状态控制 -->
-      <div class="room-video" id="mse"></div>
+      <div class="room-video" id="mse" v-show="!isWebLive"></div>
+      <div class="video-editor" v-show="isWebLive">
+        <video
+          class="video-screen"
+          autoplay
+          muted
+          ref="screenRef"
+          :width="screenOptions.width"
+          :height="screenOptions.height"
+        ></video>
+        <VueDragResize
+          v-show="isOpenCamera"
+          :w="cameraOptions.width"
+          :h="cameraOptions.height"
+          :x="cameraOptions.left"
+          :parentW="screenOptions.width"
+          :parentH="screenOptions.height"
+          :y="cameraOptions.top"
+          @resizing="changeDimensions($event, -1)"
+          @dragstop="changeDimensions($event, -1)"
+          isDraggable
+          isResizable
+          parentLimitation
+          aspectRatio
+        >
+          <video
+            ref="cameraRef"
+            autoplay
+            muted
+            :width="cameraOptions.width"
+            :height="cameraOptions.height"
+          />
+        </VueDragResize>
+        <template v-for="(item, index) in otherElements" :key="item.id">
+          <VueDragResize
+            :w="item.rect.width"
+            :h="item.rect.height"
+            :x="item.rect.left"
+            :y="item.rect.top"
+            :parentW="screenOptions.width"
+            :parentH="screenOptions.height"
+            @resizing="changeDimensions($event, index)"
+            @dragstop="changeDimensions($event, index)"
+            isDraggable
+            isResizable
+            parentLimitation
+          >
+            <div
+              :style="{
+                color: item.style.color,
+                textAlign: 'left',
+                fontSize: item.style.fontSize,
+                lineHeight: item.rect.height + 'px',
+              }"
+            >
+              {{ item.text }}
+            </div>
+          </VueDragResize>
+        </template>
+      </div>
       <div class="room-present">
-        <present-bar />
+        <present-bar v-if="!isWebLive" />
+        <web-live-tools
+          v-else
+          :is-open-camera="isOpenCamera"
+          :is-open-screen="isOpenScreen"
+          @getCamera="getCamera"
+          @getScreen="getScreen"
+          @pushStream="pushStream"
+        />
       </div>
     </div>
 
@@ -49,16 +120,32 @@ import {
   unFollowRoom,
 } from "@/services/room";
 import { io } from "socket.io-client";
-import { computed, onMounted, onUnmounted, reactive, ref } from "vue";
+import {
+  computed,
+  nextTick,
+  onMounted,
+  onUnmounted,
+  reactive,
+  ref,
+  watch,
+} from "vue";
 import { afterLogin } from "@/mixins/actionAfterLogin";
 import PresentBar from "./components/PresentBar.vue";
 import TitleBar from "./components/TitleBar.vue";
 import ChatArea from "./components/ChatArea.vue";
 import AnchorTool from "./components/AnchorTool.vue";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import VueDragResize from "vue3-drag-resize";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-ignore
+import MultiStreamsMixer from "multistreamsmixer";
 import "xgplayer";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-import FlvPlayer from "xgplayer-flv";
+import FlvPlayer from "xgplayer-flv.js";
+import WebLiveTools from "./components/WebLiveTools.vue";
+import { fetchWebLiveAddress, getRemoteOffer } from "@/services/anchor";
 
 const userStore = useUserStore(); // pinia-user
 
@@ -129,7 +216,8 @@ onMounted(async () => {
   room.info = await getRoomInfo(props.roomId);
   document.title = room.info.anchor.nickname + "_" + room.info.title;
 
-  if (room.info.isLiving) {
+  // 在直播状态,并且没有处于网页开播模式
+  if (room.info.isLiving && !isWebLive.value) {
     initPlayer();
   }
   // 网页销毁时关闭 socket 连接
@@ -139,18 +227,23 @@ onMounted(async () => {
 
 // 初始化播放器
 function initPlayer() {
-  if (playerRef.value) {
-    playerRef.value.destroy();
-  }
+  // if (playerRef.value) {
+  //   playerRef.value.destroy();
+  // }
   playerRef.value = new FlvPlayer({
     id: "mse", // 容器元素 ID
     url: import.meta.env.VITE_VIDEO_URL + room.info.streamKey + ".flv", // 拉流地址
     isLive: true, // 直播模式
     autoplay: true, // 自动播放
-    height: 500, // 高
+    height: 600, // 高
     width: 888, // 宽
     pip: true, // 画中画
     lang: "zh-cn",
+    hasVideo: true,
+    hasAudio: true,
+    flvOptionalConfig: {
+      enableWorker: true,
+    },
     ignores: ["replay"], // 忽略内置控件
     danmu: {
       // danmu 配置
@@ -252,6 +345,258 @@ function changeLastLiveTime(val: string) {
 function changeStreamKey(val: string) {
   room.info.streamKey = val;
 }
+
+// 网页直播
+const isWebLive = ref(false); // true 直播模式; false 观众模式
+function changeWebLive(status: boolean) {
+  isWebLive.value = status;
+  if (!status) {
+    setTimeout(initPlayer, 100);
+  } else {
+    nextTick(() => playerRef.value?.destroy());
+  }
+}
+
+interface Rect {
+  left: number;
+  top: number;
+  width: number;
+  height: number;
+}
+
+interface MixMediaStream extends MediaStream {
+  fullcanvas?: boolean;
+  width?: number;
+  height?: number;
+  top?: number;
+  left?: number;
+}
+
+const screenStream = ref<MixMediaStream>();
+const cameraStream = ref<MixMediaStream>();
+
+// 屏幕捕获宽高
+const screenOptions = reactive({
+  width: 888,
+  height: 600,
+});
+// 父容器高度,用于动态控制容器高度
+const screenHeight = computed(() => screenOptions.height + "px");
+const containerHeight = computed(() =>
+  isWebLive.value ? screenOptions.height + 200 + "px" : "800px"
+);
+// 屏幕捕获视频
+const screenRef = ref<HTMLVideoElement>();
+// 是否开启屏幕捕获
+const isOpenScreen = ref(false);
+// 共享屏幕
+function getScreen() {
+  navigator.mediaDevices
+    .getDisplayMedia({ video: true, audio: true })
+    .then((stream) => {
+      if (screenRef.value) screenRef.value.srcObject = stream;
+      screenStream.value = stream;
+    })
+    .then(
+      () =>
+        new Promise((resolve) => {
+          if (screenRef.value) screenRef.value.onloadedmetadata = resolve;
+        })
+    )
+    .then(() => (isOpenScreen.value = true))
+    .then(() => {
+      const { videoHeight, videoWidth } = screenRef.value as HTMLVideoElement;
+      const proportion = videoHeight / videoWidth;
+      screenOptions.height = proportion * screenOptions.width;
+      // 摄像头位置调整
+      cameraOptions.top = screenOptions.height - cameraOptions.height;
+      cameraOptions.left = screenOptions.width - cameraOptions.width;
+    })
+    .catch(console.error);
+}
+
+const cameraRef = ref<HTMLVideoElement>();
+// 是否开启摄像头
+const isOpenCamera = ref(false);
+// 摄像头位置信息
+const cameraOptions = reactive<Rect>({
+  width: 200,
+  height: 150,
+  top: 450,
+  left: 600,
+});
+
+// 其他元素
+const otherElements = reactive([
+  {
+    id: 1,
+    text: "test",
+    rect: {
+      width: 100,
+      height: 40,
+      top: 120,
+      left: 120,
+    },
+    style: {
+      color: "red",
+      fontSize: "16px",
+    },
+  },
+  {
+    id: 2,
+    text: "title\nHow are you?",
+    rect: {
+      width: 100,
+      height: 30,
+      top: 220,
+      left: 120,
+    },
+    style: {
+      color: "blue",
+      fontSize: "24px",
+    },
+  },
+]);
+
+// 捕获摄像头
+function getCamera() {
+  navigator.mediaDevices
+    .getUserMedia({ video: true, audio: true })
+    .then((stream) => {
+      if (cameraRef.value) cameraRef.value.srcObject = stream;
+      cameraStream.value = stream;
+    })
+    // 加载完再执行后续
+    .then(
+      () =>
+        new Promise((resolve) => {
+          if (cameraRef.value) cameraRef.value.onloadedmetadata = resolve;
+        })
+    )
+    // 显示视频元素
+    .then(() => (isOpenCamera.value = true))
+    // 调整视频比例
+    .then(() => {
+      const { videoHeight, videoWidth } = cameraRef.value as HTMLVideoElement;
+      // 视频比例
+      const proportion = videoWidth / videoHeight;
+      // 根据比例转换
+      cameraOptions.width = proportion * cameraOptions.height;
+      // 摄像头位置调整
+      cameraOptions.top = screenOptions.height - cameraOptions.height;
+      cameraOptions.left = screenOptions.width - cameraOptions.width;
+    })
+    // 捕获异常
+    .catch(console.log);
+}
+
+// 调整元素 size 和位置
+function changeDimensions(newRect: Rect, idx: number) {
+  if (idx === -1) {
+    cameraOptions.left = newRect.left;
+    cameraOptions.top = newRect.top;
+    cameraOptions.width = newRect.width;
+    cameraOptions.height = newRect.height;
+  } else {
+    otherElements[idx].rect = newRect;
+  }
+}
+
+// 推流
+function pushStream() {
+  // BUG 文字元素+摄像头无法获得输出流,可能是 mixer 没有 fullcanvas 导致
+  const canvas = document.createElement("canvas");
+  canvas.width = screenOptions.width;
+  canvas.height = screenOptions.height;
+
+  function drawToCanvas() {
+    const context = canvas.getContext("2d") as CanvasRenderingContext2D;
+    context.clearRect(0, 0, screenOptions.width, screenOptions.height);
+    for (let i = 0; i < otherElements.length; i++) {
+      const element = otherElements[i];
+      context.font = `${element.style.fontSize} Microsoft YaHei`;
+      context.fillStyle = element.style.color;
+      context.fillText(
+        element.text,
+        element.rect.left,
+        element.rect.top + element.rect.height
+      );
+    }
+    setTimeout(drawToCanvas, 1000);
+  }
+
+  let streams: MixMediaStream[] = [];
+
+  if (isOpenScreen.value && screenStream.value) {
+    screenStream.value.fullcanvas = true;
+    screenStream.value.width = screenOptions.width;
+    screenStream.value.height = screenOptions.height;
+    streams.push(screenStream.value as MixMediaStream);
+  }
+
+  if (isOpenCamera.value && cameraStream.value) {
+    cameraStream.value.width = cameraOptions.width;
+    cameraStream.value.height = cameraOptions.height;
+    cameraStream.value.top = cameraOptions.top;
+    cameraStream.value.left = cameraOptions.left;
+    streams.push(cameraStream.value as MixMediaStream);
+  }
+
+  if (otherElements.length) {
+    drawToCanvas();
+    const canvasStream = canvas.captureStream() as MixMediaStream;
+
+    canvasStream.width = screenOptions.width;
+    canvasStream.height = screenOptions.height;
+    canvasStream.top = 0;
+    canvasStream.left = 0;
+    streams.push(canvasStream);
+  }
+
+  const PeerConnection = RTCPeerConnection;
+  const SessionDescription = RTCSessionDescription;
+  const pc = new PeerConnection();
+
+  if (streams.length > 1) {
+    // 如果大于一个流,混流
+    const mixer = new MultiStreamsMixer(streams);
+    mixer.frameInterval = 1;
+    mixer.startDrawingFrames();
+    mixer
+      .getMixedStream()
+      .getTracks()
+      .forEach((track: MediaStreamTrack) => {
+        pc.addTrack(track);
+      });
+    // playerRef.value.srcObject = mixer.getMixedStream();
+  } else if (streams.length === 1) {
+    // 否则直接输出
+    // playerRef.value.srcObject = streams[0];
+    streams[0].getTracks().forEach((track: MediaStreamTrack) => {
+      pc.addTrack(track);
+    });
+  }
+
+  // 交换 SDP
+  fetchWebLiveAddress()
+    .then(async (options) => {
+      // 更新串流秘钥
+      room.info.streamKey = options.streamKey;
+      const offer = await pc.createOffer();
+      await pc.setLocalDescription(offer);
+
+      return getRemoteOffer({
+        ...options,
+        sdp: offer.sdp as string,
+      });
+    })
+    .then((data) => {
+      pc.setRemoteDescription(
+        new SessionDescription({ type: "answer", sdp: data.data.sdp })
+      );
+    })
+    .catch(console.error);
+}
 </script>
 
 <style scoped lang="less">
@@ -260,7 +605,7 @@ function changeStreamKey(val: string) {
 .room-container {
   // margin-top: 10px;
   width: @custom_width;
-  height: 700px;
+  height: v-bind(containerHeight);
   display: flex;
 
   .room-left {
@@ -271,8 +616,16 @@ function changeStreamKey(val: string) {
     border: @custom_border;
 
     .room-video {
-      height: 500px;
+      height: 600px;
       background-color: #000;
+      // height: v-bind(screenHeight);
+      position: relative;
+    }
+
+    .video-editor {
+      background-color: #000;
+      height: v-bind(screenHeight);
+      position: relative;
     }
 
     .room-present {

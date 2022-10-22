@@ -13,9 +13,128 @@
       "unicode_decimal": 983769
     },
     {
-      "icon_id": "13648399",
+      "icon_id": "4933147",
+      "name": "音量01",
+      "font_class": "yinliang",
+      "unicode": "e6c4",
+      "unicode_decimal": 59076
+    },
+    {
+      "icon_id": "4933190",
+      "name": "礼物",
+      "font_class": "liwu",
+      "unicode": "e6e0",
+      "unicode_decimal": 59104
+    },
+    {
+      "icon_id": "4933212",
+      "name": "电影",
+      "font_class": "dianying",
+      "unicode": "e6ee",
+      "unicode_decimal": 59118
+    },
+    {
+      "icon_id": "4933222",
+      "name": "图片",
+      "font_class": "tupian",
+      "unicode": "e6f5",
+      "unicode_decimal": 59125
+    },
+    {
+      "icon_id": "4933223",
+      "name": "附件",
+      "font_class": "fujian",
+      "unicode": "e6f6",
+      "unicode_decimal": 59126
+    },
+    {
+      "icon_id": "4933229",
+      "name": "录像机",
+      "font_class": "luxiangji",
+      "unicode": "e6fa",
+      "unicode_decimal": 59130
+    },
+    {
+      "icon_id": "4933240",
+      "name": "审批",
+      "font_class": "shenpi",
+      "unicode": "e6ff",
+      "unicode_decimal": 59135
+    },
+    {
+      "icon_id": "4933282",
+      "name": "不可见",
+      "font_class": "bukejian",
+      "unicode": "e711",
+      "unicode_decimal": 59153
+    },
+    {
+      "icon_id": "4933351",
+      "name": "可见",
+      "font_class": "kejian",
+      "unicode": "e73c",
+      "unicode_decimal": 59196
+    },
+    {
+      "icon_id": "4933362",
+      "name": "录制",
+      "font_class": "luzhi",
+      "unicode": "e741",
+      "unicode_decimal": 59201
+    },
+    {
+      "icon_id": "4933364",
       "name": "麦克风",
       "font_class": "maikefeng",
+      "unicode": "e742",
+      "unicode_decimal": 59202
+    },
+    {
+      "icon_id": "4933368",
+      "name": "屏幕共享",
+      "font_class": "pingmugongxiang",
+      "unicode": "e746",
+      "unicode_decimal": 59206
+    },
+    {
+      "icon_id": "4933370",
+      "name": "钱包",
+      "font_class": "qianbao",
+      "unicode": "e747",
+      "unicode_decimal": 59207
+    },
+    {
+      "icon_id": "4933395",
+      "name": "实物-麦克风",
+      "font_class": "shiwu-maikefeng",
+      "unicode": "e753",
+      "unicode_decimal": 59219
+    },
+    {
+      "icon_id": "4933424",
+      "name": "相机",
+      "font_class": "xiangji",
+      "unicode": "e763",
+      "unicode_decimal": 59235
+    },
+    {
+      "icon_id": "4933444",
+      "name": "语音",
+      "font_class": "yuyin",
+      "unicode": "e76b",
+      "unicode_decimal": 59243
+    },
+    {
+      "icon_id": "4933449",
+      "name": "主页",
+      "font_class": "zhuye",
+      "unicode": "e76e",
+      "unicode_decimal": 59246
+    },
+    {
+      "icon_id": "13648399",
+      "name": "麦克风",
+      "font_class": "maikefeng1",
       "unicode": "e60f",
       "unicode_decimal": 58895
     },
