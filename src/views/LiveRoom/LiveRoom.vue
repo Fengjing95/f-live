@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-10-22 19:56:30
+ * @LastEditTime: 2022-10-22 20:17:06
 -->
 <template>
   <anchor-tool
@@ -92,6 +92,8 @@
           @getCamera="getCamera"
           @getScreen="getScreen"
           @pushStream="pushStream"
+          @cancelCamera="cancelCamera"
+          @cancelScreen="cancelScreen"
         />
       </div>
     </div>
@@ -120,15 +122,7 @@ import {
   unFollowRoom,
 } from "@/services/room";
 import { io } from "socket.io-client";
-import {
-  computed,
-  nextTick,
-  onMounted,
-  onUnmounted,
-  reactive,
-  ref,
-  watch,
-} from "vue";
+import { computed, nextTick, onMounted, onUnmounted, reactive, ref } from "vue";
 import { afterLogin } from "@/mixins/actionAfterLogin";
 import PresentBar from "./components/PresentBar.vue";
 import TitleBar from "./components/TitleBar.vue";
@@ -414,6 +408,18 @@ function getScreen() {
     })
     .catch(console.error);
 }
+// 取消摄像头
+function cancelScreen() {
+  if (screenRef.value) {
+    screenRef.value.srcObject = null;
+    screenRef.value = undefined;
+    isOpenScreen.value = false;
+    // 停止使用资源
+    screenStream.value?.getTracks().forEach((track) => {
+      track.stop();
+    });
+  }
+}
 
 const cameraRef = ref<HTMLVideoElement>();
 // 是否开启摄像头
@@ -488,6 +494,19 @@ function getCamera() {
     })
     // 捕获异常
     .catch(console.log);
+}
+
+// 取消摄像头
+function cancelCamera() {
+  if (cameraRef.value) {
+    cameraRef.value.srcObject = null;
+    cameraRef.value = undefined;
+    isOpenCamera.value = false;
+    // 停止使用资源
+    cameraStream.value?.getTracks().forEach((track) => {
+      track.stop();
+    });
+  }
 }
 
 // 调整元素 size 和位置

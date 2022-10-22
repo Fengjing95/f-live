@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: 网页开播工具栏
- * @LastEditTime: 2022-10-21 23:45:04
+ * @LastEditTime: 2022-10-22 20:14:19
 -->
 <template>
   <a-row class="grid-row">
@@ -63,16 +63,18 @@ const emit = defineEmits<{
   (e: "getCamera"): void;
   (e: "getScreen"): void;
   (e: "pushStream"): void;
+  (e: "cancelCamera"): void;
+  (e: "cancelScreen"): void;
 }>();
 
 function handleCamera() {
-  // TODO 关闭
-  emit("getCamera");
+  if (props.isOpenCamera) emit("cancelCamera");
+  else emit("getCamera");
 }
 
 function handleScreen() {
-  //  TODO 关闭
-  emit("getScreen");
+  if (props.isOpenScreen) emit("cancelScreen");
+  else emit("getScreen");
 }
 
 function handlePush() {
