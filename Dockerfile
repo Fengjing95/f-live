@@ -26,5 +26,5 @@ COPY nginx.conf /etc/nginx/
 # 从上一个镜像里面复制已经打包好的 dist 文件，到 /usr/share/nginx/html 目录
 COPY /dist /usr/share/nginx/html/f-live
 
-EXPOSE 80
+EXPOSE 7002
 CMD ["nginx", "-g", "daemon off;"]
