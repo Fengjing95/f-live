@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-09-10 22:31:29
+ * @LastEditTime: 2022-10-25 09:27:54
  */
 import type { UserInfoDTO } from "./user";
 
@@ -34,4 +34,21 @@ export interface RoomInfoDTO {
   createTime: string;
   fans: number;
   anchor: UserInfoDTO;
+}
+
+export interface SourceMaterialDTO {
+  key: string;
+  visible: boolean;
+  text?: string;
+  image?: string;
+  style: {
+    color: string;
+    fontSize: string;
+  };
+  rect: {
+    top: number;
+    left: number;
+    width: number;
+    height: number;
+  };
 }

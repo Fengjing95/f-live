@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-10-22 20:17:06
+ * @LastEditTime: 2022-10-25 11:24:32
 -->
 <template>
   <anchor-tool
@@ -58,6 +58,7 @@
         </VueDragResize>
         <template v-for="(item, index) in otherElements" :key="item.id">
           <VueDragResize
+            v-if="item.visible"
             :w="item.rect.width"
             :h="item.rect.height"
             :x="item.rect.left"
@@ -87,6 +88,7 @@
         <present-bar v-if="!isWebLive" />
         <web-live-tools
           v-else
+          v-model:sourceMaterial="otherElements"
           :is-open-camera="isOpenCamera"
           :is-open-screen="isOpenScreen"
           @getCamera="getCamera"
@@ -113,7 +115,7 @@
 
 <script setup lang="ts">
 import { useUserStore } from "@/stores/user";
-import type { MessageDTO, Room, RoomInfoDTO } from "#/room";
+import type { MessageDTO, Room, RoomInfoDTO, SourceMaterialDTO } from "#/room";
 import {
   followRoom,
   gerRoomFansNum,
@@ -433,9 +435,10 @@ const cameraOptions = reactive<Rect>({
 });
 
 // 其他元素
-const otherElements = reactive([
+const otherElements = ref<SourceMaterialDTO[]>([
   {
-    id: 1,
+    key: "1",
+    visible: true,
     text: "test",
     rect: {
       width: 100,
@@ -449,7 +452,8 @@ const otherElements = reactive([
     },
   },
   {
-    id: 2,
+    key: "2",
+    visible: false,
     text: "title\nHow are you?",
     rect: {
       width: 100,
@@ -517,7 +521,7 @@ function changeDimensions(newRect: Rect, idx: number) {
     cameraOptions.width = newRect.width;
     cameraOptions.height = newRect.height;
   } else {
-    otherElements[idx].rect = newRect;
+    otherElements.value[idx].rect = newRect;
   }
 }
 
@@ -531,15 +535,20 @@ function pushStream() {
   function drawToCanvas() {
     const context = canvas.getContext("2d") as CanvasRenderingContext2D;
     context.clearRect(0, 0, screenOptions.width, screenOptions.height);
-    for (let i = 0; i < otherElements.length; i++) {
-      const element = otherElements[i];
-      context.font = `${element.style.fontSize} Microsoft YaHei`;
-      context.fillStyle = element.style.color;
-      context.fillText(
-        element.text,
-        element.rect.left,
-        element.rect.top + element.rect.height
-      );
+    for (let i = 0; i < otherElements.value.length; i++) {
+      const element = otherElements.value[i];
+      if (!element.visible) continue;
+      if (element.text) {
+        context.font = `${element.style.fontSize} Microsoft YaHei`;
+        context.fillStyle = element.style.color;
+        context.fillText(
+          element.text,
+          element.rect.left,
+          element.rect.top + element.rect.height
+        );
+      } else {
+        // TODO image
+      }
     }
     setTimeout(drawToCanvas, 1000);
   }
@@ -561,7 +570,7 @@ function pushStream() {
     streams.push(cameraStream.value as MixMediaStream);
   }
 
-  if (otherElements.length) {
+  if (otherElements.value.length) {
     drawToCanvas();
     const canvasStream = canvas.captureStream() as MixMediaStream;
 
