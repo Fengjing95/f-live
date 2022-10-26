@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-10-25 11:24:32
+ * @LastEditTime: 2022-10-26 21:32:26
 -->
 <template>
   <anchor-tool
@@ -56,7 +56,7 @@
             :height="cameraOptions.height"
           />
         </VueDragResize>
-        <template v-for="(item, index) in otherElements" :key="item.id">
+        <template v-for="(item, index) in otherElements" :key="item.key">
           <VueDragResize
             v-if="item.visible"
             :w="item.rect.width"
@@ -67,15 +67,17 @@
             :parentH="screenOptions.height"
             @resizing="changeDimensions($event, index)"
             @dragstop="changeDimensions($event, index)"
+            :minh="16"
             isDraggable
             isResizable
             parentLimitation
+            aspectRatio
           >
             <div
               :style="{
                 color: item.style.color,
                 textAlign: 'left',
-                fontSize: item.style.fontSize,
+                fontSize: item.rect.height + 'px',
                 lineHeight: item.rect.height + 'px',
               }"
             >
@@ -435,38 +437,7 @@ const cameraOptions = reactive<Rect>({
 });
 
 // 其他元素
-const otherElements = ref<SourceMaterialDTO[]>([
-  {
-    key: "1",
-    visible: true,
-    text: "test",
-    rect: {
-      width: 100,
-      height: 40,
-      top: 120,
-      left: 120,
-    },
-    style: {
-      color: "red",
-      fontSize: "16px",
-    },
-  },
-  {
-    key: "2",
-    visible: false,
-    text: "title\nHow are you?",
-    rect: {
-      width: 100,
-      height: 30,
-      top: 220,
-      left: 120,
-    },
-    style: {
-      color: "blue",
-      fontSize: "24px",
-    },
-  },
-]);
+const otherElements = ref<SourceMaterialDTO[]>([]);
 
 // 捕获摄像头
 function getCamera() {
@@ -522,6 +493,7 @@ function changeDimensions(newRect: Rect, idx: number) {
     cameraOptions.height = newRect.height;
   } else {
     otherElements.value[idx].rect = newRect;
+    otherElements.value[idx].style.fontSize = newRect.height + "px";
   }
 }
 

@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: 网页开播工具栏
- * @LastEditTime: 2022-10-25 22:42:59
+ * @LastEditTime: 2022-10-26 22:08:44
 -->
 <template>
   <a-row class="grid-row">
@@ -94,11 +94,37 @@
     title="文本素材"
     @ok="saveMaterial"
     @cancel="editMaterialVisible = false"
+    :body-style="{
+      position: 'static',
+    }"
   >
-    <a-input
-      v-model="targetMaterial.material.text"
-      placeholder="请输入要显示的文本"
-    />
+    <a-form-item label="颜色">
+      <pick-colors
+        v-model:value="targetMaterial.material.style.color"
+        show-alpha
+        :size="30"
+      />
+    </a-form-item>
+
+    <a-form-item label="字号">
+      <a-input-number
+        :style="{ width: '100px' }"
+        v-model="targetMaterial.material.rect.height"
+        placeholder="请输入字体大小"
+        hide-button
+        :max="150"
+        :min="16"
+      >
+        <template #append> px </template>
+      </a-input-number>
+    </a-form-item>
+
+    <a-form-item label="文本">
+      <a-input
+        v-model="targetMaterial.material.text"
+        placeholder="请输入要显示的文本"
+      />
+    </a-form-item>
   </a-modal>
 </template>
 
@@ -106,8 +132,11 @@
 import type { SourceMaterialDTO } from "#/room";
 import { CommonIconFont } from "@/utils/iconfontAdapter";
 import { IconFolder, IconFolderAdd } from "@arco-design/web-vue/es/icon";
-import { reactive, ref } from "vue";
+import { reactive, ref, watch } from "vue";
 import SourceMaterialItem from "./SourceMaterialItem.vue";
+import PickColors from "vue-pick-colors";
+import { Message } from "@arco-design/web-vue";
+import { getDOMWidthWithFontSize } from "@/utils/dom";
 
 const props = defineProps<{
   isOpenScreen: boolean;
@@ -180,8 +209,8 @@ const initMaterial: SourceMaterialDTO = {
   text: "",
   visible: true,
   rect: {
-    width: 0,
-    height: 0,
+    width: 16,
+    height: 16,
     left: 0,
     top: 0,
   },
@@ -204,7 +233,21 @@ function editMaterial(index: number) {
 
 // 重置状态
 function resetMaterial() {
-  targetMaterial.material = initMaterial;
+  targetMaterial.material = {
+    key: "",
+    text: "",
+    visible: true,
+    rect: {
+      width: 16,
+      height: 16,
+      left: 0,
+      top: 0,
+    },
+    style: {
+      color: "#000000",
+      fontSize: "16px",
+    },
+  };
   targetMaterial.index = -1;
 }
 
@@ -218,10 +261,24 @@ function saveMaterial() {
   if (targetMaterial.index === -1)
     // 新值加 key
     targetMaterial.material.key = new Date().getTime().toString();
-  changeMaterial(targetMaterial.material, idx);
-  editMaterialVisible.value = false;
-  resetMaterial();
+
+  if (targetMaterial.material.text?.length) {
+    // 绑定字号和和高度
+    const height = targetMaterial.material.rect.height;
+    targetMaterial.material.style.fontSize = height + "px";
+    // 计算宽度
+    const width = getDOMWidthWithFontSize(targetMaterial.material.text, height);
+    targetMaterial.material.rect.width = width;
+    changeMaterial(targetMaterial.material, idx);
+    // editMaterialVisible.value = false;
+  } else {
+    Message.warning("文本内容不能为空");
+  }
 }
+// TODO 图片素材
+
+// 关闭 modal 重置对象
+watch(editMaterialVisible, resetMaterial);
 </script>
 
 <style scoped lang="less">
