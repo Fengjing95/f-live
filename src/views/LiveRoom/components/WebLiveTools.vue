@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: 网页开播工具栏
- * @LastEditTime: 2022-10-27 11:21:58
+ * @LastEditTime: 2022-10-27 19:27:17
 -->
 <template>
   <a-row class="grid-row">
@@ -64,9 +64,15 @@
         @click="handlePush"
         type="primary"
         shape="round"
+        v-if="!isPushing"
       >
         开始推流
       </a-button>
+      <a-popconfirm content="确定要停止推流?" @ok="handleStopPush" v-else>
+        <a-button shape="round" :style="{ marginTop: '25px' }">
+          停止推流
+        </a-button>
+      </a-popconfirm>
     </a-col>
   </a-row>
 
@@ -143,6 +149,7 @@ const props = defineProps<{
   isOpenScreen: boolean;
   isOpenCamera: boolean;
   sourceMaterial: SourceMaterialDTO[];
+  isPushing: boolean;
 }>();
 
 const emit = defineEmits<{
@@ -151,6 +158,7 @@ const emit = defineEmits<{
   (e: "pushStream"): void;
   (e: "cancelCamera"): void;
   (e: "cancelScreen"): void;
+  (e: "stopPushStream"): void;
   (e: "update:sourceMaterial", newValue: SourceMaterialDTO[]): void;
 }>();
 
@@ -166,6 +174,10 @@ function handleScreen() {
 
 function handlePush() {
   emit("pushStream");
+}
+
+function handleStopPush() {
+  emit("stopPushStream");
 }
 
 const sourceMaterialVisible = ref(false); // 素材管理可见

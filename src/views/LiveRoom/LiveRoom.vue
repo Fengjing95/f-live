@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-10-26 21:32:26
+ * @LastEditTime: 2022-10-27 19:28:28
 -->
 <template>
   <anchor-tool
@@ -93,11 +93,13 @@
           v-model:sourceMaterial="otherElements"
           :is-open-camera="isOpenCamera"
           :is-open-screen="isOpenScreen"
+          :is-pushing="isPushing"
           @getCamera="getCamera"
           @getScreen="getScreen"
           @pushStream="pushStream"
           @cancelCamera="cancelCamera"
           @cancelScreen="cancelScreen"
+          @stopPushStream="stopPushStream"
         />
       </div>
     </div>
@@ -144,6 +146,7 @@ import "xgplayer";
 import FlvPlayer from "xgplayer-flv.js";
 import WebLiveTools from "./components/WebLiveTools.vue";
 import { fetchWebLiveAddress, getRemoteOffer } from "@/services/anchor";
+import { Message } from "@arco-design/web-vue";
 
 const userStore = useUserStore(); // pinia-user
 
@@ -497,6 +500,9 @@ function changeDimensions(newRect: Rect, idx: number) {
   }
 }
 
+const isPushing = ref(false); // 是否正在推流
+const peerConnection = ref<RTCPeerConnection>();
+
 // 推流
 function pushStream() {
   // BUG 文字元素+摄像头无法获得输出流,可能是 mixer 没有 fullcanvas 导致
@@ -555,7 +561,7 @@ function pushStream() {
 
   const PeerConnection = RTCPeerConnection;
   const SessionDescription = RTCSessionDescription;
-  const pc = new PeerConnection();
+  peerConnection.value = new PeerConnection();
 
   if (streams.length > 1) {
     // 如果大于一个流,混流
@@ -566,14 +572,14 @@ function pushStream() {
       .getMixedStream()
       .getTracks()
       .forEach((track: MediaStreamTrack) => {
-        pc.addTrack(track);
+        peerConnection.value?.addTrack(track);
       });
     // playerRef.value.srcObject = mixer.getMixedStream();
   } else if (streams.length === 1) {
     // 否则直接输出
     // playerRef.value.srcObject = streams[0];
     streams[0].getTracks().forEach((track: MediaStreamTrack) => {
-      pc.addTrack(track);
+      peerConnection.value?.addTrack(track);
     });
   }
 
@@ -582,20 +588,34 @@ function pushStream() {
     .then(async (options) => {
       // 更新串流秘钥
       room.info.streamKey = options.streamKey;
-      const offer = await pc.createOffer();
-      await pc.setLocalDescription(offer);
+      const offer = await peerConnection.value?.createOffer();
+      await peerConnection.value?.setLocalDescription(offer);
 
       return getRemoteOffer({
         ...options,
-        sdp: offer.sdp as string,
+        sdp: offer?.sdp as string,
       });
     })
     .then((data) => {
-      pc.setRemoteDescription(
-        new SessionDescription({ type: "answer", sdp: data.data.sdp })
-      );
+      if (data.data.code !== 0) {
+        Message.error("推流失败: " + data.data.code);
+      } else {
+        peerConnection.value?.setRemoteDescription(
+          new SessionDescription({ type: "answer", sdp: data.data.sdp })
+        );
+        // 开始推流
+        isPushing.value = true;
+        Message.success("正在推流");
+      }
     })
     .catch(console.error);
+}
+
+// 停止推流
+function stopPushStream() {
+  peerConnection.value?.close();
+  isPushing.value = false;
+  Message.success("已停止推流");
 }
 </script>
 
