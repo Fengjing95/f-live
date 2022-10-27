@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: 网页开播工具栏
- * @LastEditTime: 2022-10-26 22:08:44
+ * @LastEditTime: 2022-10-27 11:21:58
 -->
 <template>
   <a-row class="grid-row">
@@ -137,6 +137,7 @@ import SourceMaterialItem from "./SourceMaterialItem.vue";
 import PickColors from "vue-pick-colors";
 import { Message } from "@arco-design/web-vue";
 import { getDOMWidthWithFontSize } from "@/utils/dom";
+import { deepCloneByJSON } from "@/utils/common";
 
 const props = defineProps<{
   isOpenScreen: boolean;
@@ -226,7 +227,7 @@ let targetMaterial = reactive({
 });
 // 素材管理中编辑素材
 function editMaterial(index: number) {
-  targetMaterial.material = props.sourceMaterial[index];
+  targetMaterial.material = deepCloneByJSON(props.sourceMaterial[index]);
   targetMaterial.index = index;
   editMaterialVisible.value = true;
 }
@@ -258,13 +259,13 @@ function saveMaterial() {
     targetMaterial.index === -1
       ? props.sourceMaterial.length
       : targetMaterial.index;
-  if (targetMaterial.index === -1)
-    // 新值加 key
-    targetMaterial.material.key = new Date().getTime().toString();
+  // if (targetMaterial.index === -1)
+  // 重新加 key, 否则在锁定比例的情况下无法重新赋值宽度
+  targetMaterial.material.key = new Date().getTime().toString();
 
   if (targetMaterial.material.text?.length) {
     // 绑定字号和和高度
-    const height = targetMaterial.material.rect.height;
+    const height = targetMaterial.material.rect.height; // 高度即为字号
     targetMaterial.material.style.fontSize = height + "px";
     // 计算宽度
     const width = getDOMWidthWithFontSize(targetMaterial.material.text, height);
@@ -278,7 +279,9 @@ function saveMaterial() {
 // TODO 图片素材
 
 // 关闭 modal 重置对象
-watch(editMaterialVisible, resetMaterial);
+watch(editMaterialVisible, () => {
+  !editMaterialVisible.value && resetMaterial();
+});
 </script>
 
 <style scoped lang="less">
