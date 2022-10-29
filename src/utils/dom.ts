@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: DOM 工具
- * @LastEditTime: 2022-10-26 22:02:36
+ * @LastEditTime: 2022-10-29 16:55:25
  */
 
 /**
@@ -22,4 +22,22 @@ export function getDOMWidthWithFontSize(text: string, fontsize: number) {
   const width = textElement.clientWidth;
   document.body.removeChild(textElement);
   return width;
+}
+
+/**
+ * 根据图片地址计算图片的尺寸
+ * @param src 图片地址
+ * @returns
+ */
+export function getImageSizeBySrc(
+  src: string
+): Promise<{ width: number; height: number }> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.src = src;
+
+    img.onload = () => resolve({ width: img.width, height: img.height });
+
+    img.onerror = reject;
+  });
 }

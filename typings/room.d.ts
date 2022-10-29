@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-10-25 09:27:54
+ * @LastEditTime: 2022-10-28 11:31:05
  */
 import type { UserInfoDTO } from "./user";
 
@@ -40,10 +40,13 @@ export interface SourceMaterialDTO {
   key: string;
   visible: boolean;
   text?: string;
-  image?: string;
+  image?: {
+    name: string;
+    url: string;
+  };
   style: {
-    color: string;
-    fontSize: string;
+    color?: string;
+    fontSize?: string;
   };
   rect: {
     top: number;

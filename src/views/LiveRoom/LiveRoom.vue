@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-10-27 19:28:28
+ * @LastEditTime: 2022-10-29 18:17:35
 -->
 <template>
   <anchor-tool
@@ -74,6 +74,7 @@
             aspectRatio
           >
             <div
+              v-if="item.text"
               :style="{
                 color: item.style.color,
                 textAlign: 'left',
@@ -83,6 +84,7 @@
             >
               {{ item.text }}
             </div>
+            <img v-else :src="item.image?.url" />
           </VueDragResize>
         </template>
       </div>
@@ -412,6 +414,7 @@ function getScreen() {
       // 摄像头位置调整
       cameraOptions.top = screenOptions.height - cameraOptions.height;
       cameraOptions.left = screenOptions.width - cameraOptions.width;
+      // FIXME 容器宽高调整导致素材溢出(可以计算出高徒坍缩的数值同意减去)
     })
     .catch(console.error);
 }
@@ -517,15 +520,27 @@ function pushStream() {
       const element = otherElements.value[i];
       if (!element.visible) continue;
       if (element.text) {
+        // text
         context.font = `${element.style.fontSize} Microsoft YaHei`;
-        context.fillStyle = element.style.color;
+        context.fillStyle = element.style.color as string;
         context.fillText(
           element.text,
           element.rect.left,
           element.rect.top + element.rect.height
         );
       } else {
-        // TODO image
+        // image
+        // FIXME 异步加载图片导致不会按照顺序覆盖
+        const image = new Image();
+        image.src = element.image?.url as string;
+        image.onload = () =>
+          context.drawImage(
+            image,
+            element.rect.left,
+            element.rect.top,
+            element.rect.width,
+            element.rect.height
+          );
       }
     }
     setTimeout(drawToCanvas, 1000);

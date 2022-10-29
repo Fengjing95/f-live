@@ -3,28 +3,33 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-10-25 22:21:39
+ * @LastEditTime: 2022-10-29 17:05:38
 -->
 <template>
   <div class="material_item">
-    <icon-eye
-      :size="16"
-      v-if="material.visible"
-      class="allow_icon"
-      @click="visibleChange(false)"
-    />
-    <icon-eye-invisible
-      :size="16"
-      v-else
-      class="allow_icon"
-      @click="visibleChange(true)"
-    />
+    <a-space>
+      <icon-eye
+        :size="16"
+        v-if="material.visible"
+        class="allow_icon"
+        @click="visibleChange(false)"
+      />
+      <icon-eye-invisible
+        :size="16"
+        v-else
+        class="allow_icon"
+        @click="visibleChange(true)"
+      />
+      <icon-file v-if="material.text" />
+      <icon-file-image v-else />
+    </a-space>
+
     <div class="text_content">
-      {{ props.material.text }}
+      {{ props.material.text || props.material.image?.name }}
     </div>
     <a-space>
       <icon-settings
-        v-if="!material.image"
+        v-if="material.text"
         class="allow_icon"
         @click="emit('edit')"
       />
@@ -50,6 +55,8 @@ import {
   IconCaretUp,
   IconCaretDown,
   IconSettings,
+  IconFile,
+  IconFileImage,
 } from "@arco-design/web-vue/es/icon";
 import { reactive } from "vue";
 

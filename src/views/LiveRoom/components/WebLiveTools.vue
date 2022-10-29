@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: 网页开播工具栏
- * @LastEditTime: 2022-10-27 19:27:17
+ * @LastEditTime: 2022-10-29 17:06:41
 -->
 <template>
   <a-row class="grid-row">
@@ -48,7 +48,7 @@
     </a-col>
 
     <a-col :span="2">
-      <div class="tool-item" @click="editMaterialVisible = true">
+      <div class="tool-item" @click="addVisible = true">
         <icon-folder-add
           :size="32"
           :style="{ position: 'relative', top: 13 }"
@@ -76,10 +76,10 @@
     </a-col>
   </a-row>
 
+  <!-- 素材管理 modal -->
   <a-modal
     v-model:visible="sourceMaterialVisible"
     :footer="false"
-    @cancel="sourceMaterialVisible = false"
     title="素材管理"
   >
     <template v-for="(item, index) in sourceMaterial" :key="item.key">
@@ -95,11 +95,42 @@
     </template>
   </a-modal>
 
+  <!-- 添加素材 modal -->
+  <a-modal v-model:visible="addVisible" :footer="false" title="添加素材">
+    <a-space size="large">
+      <div
+        class="add_material"
+        @click="
+          () => {
+            addVisible = false;
+            editMaterialVisible = true;
+          }
+        "
+      >
+        <icon-file :size="36" />
+        文本素材
+      </div>
+      <a-upload
+        :custom-request="selectImageMaterial"
+        accept="image/png, image/jpg, image/jpeg, image/webp"
+        :show-upload-button="true"
+        :show-file-list="false"
+      >
+        <template #upload-button>
+          <div class="add_material">
+            <icon-file-image :size="36" />
+            图片素材
+          </div>
+        </template>
+      </a-upload>
+    </a-space>
+  </a-modal>
+
+  <!-- 文本素材 modal -->
   <a-modal
     v-model:visible="editMaterialVisible"
     title="文本素材"
     @ok="saveMaterial"
-    @cancel="editMaterialVisible = false"
     :body-style="{
       position: 'static',
     }"
@@ -137,13 +168,19 @@
 <script setup lang="ts">
 import type { SourceMaterialDTO } from "#/room";
 import { CommonIconFont } from "@/utils/iconfontAdapter";
-import { IconFolder, IconFolderAdd } from "@arco-design/web-vue/es/icon";
+import {
+  IconFolder,
+  IconFolderAdd,
+  IconFile,
+  IconFileImage,
+} from "@arco-design/web-vue/es/icon";
 import { reactive, ref, watch } from "vue";
 import SourceMaterialItem from "./SourceMaterialItem.vue";
 import PickColors from "vue-pick-colors";
-import { Message } from "@arco-design/web-vue";
-import { getDOMWidthWithFontSize } from "@/utils/dom";
+import { Message, type RequestOption } from "@arco-design/web-vue";
+import { getDOMWidthWithFontSize, getImageSizeBySrc } from "@/utils/dom";
 import { deepCloneByJSON } from "@/utils/common";
+import { getTimeString } from "@/utils/time";
 
 const props = defineProps<{
   isOpenScreen: boolean;
@@ -244,6 +281,40 @@ function editMaterial(index: number) {
   editMaterialVisible.value = true;
 }
 
+const addVisible = ref(false); // 添加素材可见性
+
+// 选择图片素材
+function selectImageMaterial(options: RequestOption) {
+  const {
+    fileItem: { url, name },
+  } = options;
+  getImageSizeBySrc(url as string).then(({ width, height }) => {
+    const imageMaterial = {
+      key: getTimeString(),
+      visible: true,
+      image: {
+        name: name || "image",
+        url: url as string,
+      },
+      rect: {
+        width,
+        height,
+        left: 0,
+        top: 0,
+      },
+      style: {},
+    };
+
+    const idx = props.sourceMaterial.length;
+
+    changeMaterial(imageMaterial, idx);
+
+    addVisible.value = false;
+  });
+
+  return {};
+}
+
 // 重置状态
 function resetMaterial() {
   targetMaterial.material = {
@@ -273,7 +344,7 @@ function saveMaterial() {
       : targetMaterial.index;
   // if (targetMaterial.index === -1)
   // 重新加 key, 否则在锁定比例的情况下无法重新赋值宽度
-  targetMaterial.material.key = new Date().getTime().toString();
+  targetMaterial.material.key = getTimeString();
 
   if (targetMaterial.material.text?.length) {
     // 绑定字号和和高度
@@ -288,7 +359,6 @@ function saveMaterial() {
     Message.warning("文本内容不能为空");
   }
 }
-// TODO 图片素材
 
 // 关闭 modal 重置对象
 watch(editMaterialVisible, () => {
@@ -316,6 +386,23 @@ watch(editMaterialVisible, () => {
     }
   }
   .active {
+    color: @primary-custom;
+  }
+}
+.add_material {
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+  border-radius: 5px;
+  background-color: #fafafa;
+  border: solid 1px #d4d2d2;
+  padding: 15px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+
+  &:hover {
     color: @primary-custom;
   }
 }
