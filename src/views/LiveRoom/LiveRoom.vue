@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-10-29 18:17:35
+ * @LastEditTime: 2022-10-29 20:08:29
 -->
 <template>
   <anchor-tool
@@ -336,6 +336,13 @@ async function unFollow() {
 
 // 更新直播状态
 function changeLiveStatus(val: string | number | boolean) {
+  if (!val && isPushing.value) {
+    // 如果结束直播,并且处于网页开播状态,停止推流
+    stopPushStream();
+    cancelScreen();
+    cancelCamera();
+    isWebLive.value = false;
+  }
   room.info.isLiving = val as boolean;
 }
 
