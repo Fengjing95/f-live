@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-10-29 20:08:29
+ * @LastEditTime: 2022-10-31 10:42:11
 -->
 <template>
   <anchor-tool
@@ -130,7 +130,15 @@ import {
   unFollowRoom,
 } from "@/services/room";
 import { io } from "socket.io-client";
-import { computed, nextTick, onMounted, onUnmounted, reactive, ref } from "vue";
+import {
+  computed,
+  nextTick,
+  onMounted,
+  onUnmounted,
+  reactive,
+  ref,
+  watch,
+} from "vue";
 import { afterLogin } from "@/mixins/actionAfterLogin";
 import PresentBar from "./components/PresentBar.vue";
 import TitleBar from "./components/TitleBar.vue";
@@ -451,6 +459,27 @@ const cameraOptions = reactive<Rect>({
 
 // 其他元素
 const otherElements = ref<SourceMaterialDTO[]>([]);
+
+// 元素变动时处理图片溢出
+watch(otherElements, (cur, prev) => {
+  if (cur.length > prev.length) {
+    // screenOptions
+    const n = cur[cur.length - 1];
+    if (!n.text) {
+      // 图片进行检查
+      if (n.rect.width > screenOptions.width) {
+        const proportion = screenOptions.width / n.rect.width;
+        n.rect.width *= proportion;
+        n.rect.height *= proportion;
+      }
+      if (n.rect.height > screenOptions.height) {
+        const proportion = screenOptions.height / n.rect.height;
+        n.rect.width *= proportion;
+        n.rect.height *= proportion;
+      }
+    }
+  }
+});
 
 // 捕获摄像头
 function getCamera() {
