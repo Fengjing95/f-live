@@ -3,10 +3,10 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description:  根据地接口
- * @LastEditTime: 2022-09-20 23:12:04
+ * @LastEditTime: 2022-11-01 19:52:26
  */
 
-import type { CitadelInfoDTO, DynamicDTO, FollowDTO } from "#/citadel";
+import type { Citadel, CitadelInfoDTO, DynamicDTO, FollowDTO } from "#/citadel";
 import type { PostDetailDTO, PostCreateDTO, ReviewDTO } from "#/post";
 import type { PaginationResponseData } from "#/util";
 import { request } from "@/utils/request";
@@ -147,4 +147,12 @@ export async function postReview(
  */
 export async function deleteReview(reviewId: number): Promise<boolean> {
   return await request.delete(`/citadel/post/review/${reviewId}`);
+}
+
+/**
+ * 获取用户的根据地(主播身份)
+ * @returns
+ */
+export async function getMyCitadel(): Promise<Citadel> {
+  return await request.get(`/anchor/citadel`);
 }

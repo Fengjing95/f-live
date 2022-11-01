@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-09-19 20:15:00
+ * @LastEditTime: 2022-11-01 19:31:07
  */
 export interface LoginDTO {
   username: string;
@@ -29,6 +29,8 @@ export interface UserInfoDTO {
   updateTime: string;
   updateCount: number;
   freeze: number;
+  email?: string;
+  isValid: boolean;
 }
 
 export interface Author {

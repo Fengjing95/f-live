@@ -3,11 +3,13 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-06-27 14:37:44
+ * @LastEditTime: 2022-11-01 19:36:50
  */
+import type { Citadel } from "#/citadel";
 import type { UserInfoDTO } from "#/user";
+import { getMyCitadel } from "@/services/citadel";
 import { getMyInfo, logout, refreshToken } from "@/services/user";
-import { getUserFromStorage, setUserInStorage } from "@/utils/storage";
+import { setUserInStorage } from "@/utils/storage";
 import { defineStore } from "pinia";
 // import { useGlobalStore } from "./global";
 
@@ -15,6 +17,7 @@ export const useUserStore = defineStore({
   id: "user",
   state: () => ({
     info: {} as UserInfoDTO,
+    citadel: {} as Citadel,
     token: "",
   }),
   getters: {
@@ -23,6 +26,9 @@ export const useUserStore = defineStore({
     },
     getUsername(state) {
       return state.info.username;
+    },
+    isAnchor(state) {
+      return state.info.role === 1;
     },
   },
   actions: {
@@ -47,6 +53,10 @@ export const useUserStore = defineStore({
       const user = await getMyInfo();
       setUserInStorage(user);
       this.info = user;
+    },
+    async getUserCitadelInfo() {
+      const citadel = await getMyCitadel();
+      this.citadel = citadel;
     },
   },
 });

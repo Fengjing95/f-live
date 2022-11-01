@@ -3,15 +3,31 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-09-22 09:17:31
+ * @LastEditTime: 2022-11-01 20:11:52
 -->
 <template>
   <div class="citadel-container">
     <div class="citadel-sidebar">
       <ul>
         <li
+          :class="{ active: route.name === 'citadelHome' }"
+          @click="router.push('/citadel')"
+        >
+          全部动态
+        </li>
+        <li
+          v-if="user.citadel.citadelId"
+          :class="{
+            active: route.path.includes(`/citadel/${user.citadel?.citadelId}`),
+          }"
+          @click="router.push(`/citadel/${user.citadel?.citadelId}`)"
+        >
+          我的根据地
+        </li>
+        <li
           v-for="f in data.follow"
           :key="f.citadelId"
+          :class="{ active: route.path.includes(`/citadel/${f.citadelId}`) }"
           @click="router.push(`/citadel/${f.citadelId}`)"
         >
           {{ f.name }}
@@ -32,10 +48,15 @@
 <script setup lang="ts">
 import type { FollowDTO } from "#/citadel";
 import { getFollowCitadel } from "@/services/citadel";
+import { useUserStore } from "@/stores/user";
 import { onMounted, reactive } from "vue";
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
 
 const router = useRouter();
+
+const route = useRoute();
+
+const user = useUserStore();
 
 const data = reactive<{ follow: FollowDTO[] }>({
   follow: [],
@@ -43,6 +64,9 @@ const data = reactive<{ follow: FollowDTO[] }>({
 
 onMounted(async () => {
   data.follow = await getFollowCitadel();
+  if (user.isAnchor) {
+    await user.getUserCitadelInfo();
+  }
 });
 </script>
 
@@ -100,6 +124,10 @@ onMounted(async () => {
           background-color: @custom_primary-opacity;
           color: #fff;
         }
+      }
+
+      .active {
+        color: @primary-custom;
       }
     }
   }
