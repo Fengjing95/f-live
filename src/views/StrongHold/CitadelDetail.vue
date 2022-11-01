@@ -3,13 +3,13 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: 根据地详情
- * @LastEditTime: 2022-09-19 22:16:23
+ * @LastEditTime: 2022-11-01 20:56:59
 -->
 <template>
   <a-page-header
     :style="{ background: 'var(--color-bg-2)' }"
-    :title="data.info.name"
-    :subtitle="data.info.description"
+    :title="data.info?.name"
+    :subtitle="data.info?.description"
     @back="router.push('/citadel')"
   >
     <template #extra>

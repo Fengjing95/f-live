@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-11-01 20:11:52
+ * @LastEditTime: 2022-11-01 20:54:29
 -->
 <template>
   <div class="citadel-container">
@@ -18,7 +18,7 @@
         <li
           v-if="user.citadel.citadelId"
           :class="{
-            active: route.path.includes(`/citadel/${user.citadel?.citadelId}`),
+            active: Number(route.params?.citadelId) === user.citadel?.citadelId,
           }"
           @click="router.push(`/citadel/${user.citadel?.citadelId}`)"
         >
@@ -27,7 +27,7 @@
         <li
           v-for="f in data.follow"
           :key="f.citadelId"
-          :class="{ active: route.path.includes(`/citadel/${f.citadelId}`) }"
+          :class="{ active: Number(route.params?.citadelId) === f.citadelId }"
           @click="router.push(`/citadel/${f.citadelId}`)"
         >
           {{ f.name }}
@@ -61,6 +61,7 @@ const user = useUserStore();
 const data = reactive<{ follow: FollowDTO[] }>({
   follow: [],
 });
+console.log(route);
 
 onMounted(async () => {
   data.follow = await getFollowCitadel();
