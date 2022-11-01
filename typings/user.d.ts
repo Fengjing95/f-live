@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-10-13 10:55:54
+ * @LastEditTime: 2022-11-01 20:18:28
  */
 export interface LoginDTO {
   username: string;
