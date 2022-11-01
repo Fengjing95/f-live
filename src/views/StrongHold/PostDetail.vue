@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-09-20 23:14:29
+ * @LastEditTime: 2022-11-01 20:59:53
 -->
 <template>
   <div class="post_container">
@@ -76,8 +76,8 @@
         :total="total"
         :current="current"
         :page-size="pageSize"
-        @page-size-change="(p) => (pageSize = p)"
-        @change="async (c) => (current = c)"
+        @page-size-change="(p: number) => (pageSize = p)"
+        @change="async (c: number) => (current = c)"
         show-jumper
         show-page-size
       />

@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: description
- * @LastEditTime: 2022-10-05 15:30:56
+ * @LastEditTime: 2022-11-01 21:00:13
 -->
 <template>
   <template v-if="data.dynamic.total">
@@ -33,9 +33,9 @@
         :total="data.dynamic.total"
         :current="current"
         :page-size="pageSize"
-        @page-size-change="(p) => (pageSize = p)"
+        @page-size-change="(p:number) => (pageSize = p)"
         @change="
-          async (c) => {
+          async (c: number) => {
             current = c;
           }
         "

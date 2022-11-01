@@ -3,7 +3,7 @@
  * @Author: 枫
  * @LastEditors: 枫
  * @description: 根据地详情
- * @LastEditTime: 2022-11-01 20:56:59
+ * @LastEditTime: 2022-11-01 20:59:10
 -->
 <template>
   <a-page-header
@@ -44,9 +44,9 @@
         :total="data.post.total"
         :current="current"
         :page-size="pageSize"
-        @page-size-change="(p) => (pageSize = p)"
+        @page-size-change="(p: number) => (pageSize = p)"
         @change="
-          async (c) => {
+          async (c: number) => {
             current = c;
           }
         "
